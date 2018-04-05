@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">PillReminder</string>
+    <string name="dose_ml">ml</string>
+    <string name="dose_szt">szt</string>
+    <string name="dose_drop">krople</string>
+</resources>
