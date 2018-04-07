@@ -78,4 +78,11 @@
         app:layout_constraintTop_toTopOf="@+id/imageView2"
         app:layout_constraintVertical_bias="1.0" />
 
+    <ListView
+        android:id="@+id/list_medicine_Check"
+        android:layout_width="382dp"
+        android:layout_height="514dp"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="70dp" />
+
 </android.support.constraint.ConstraintLayout>

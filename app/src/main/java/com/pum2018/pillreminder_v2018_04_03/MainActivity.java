@@ -15,6 +15,7 @@ import static android.widget.Toast.LENGTH_SHORT;
 
 public class MainActivity extends AppCompatActivity {
 
+    DataBaseManager dbm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,5 +70,11 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(this,"You pressed Schedule", LENGTH_SHORT).show();
         Intent scheduleIntent = new Intent(this,ScheduleActivity.class);
         startActivity(scheduleIntent);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        dbm.close();
     }
 }

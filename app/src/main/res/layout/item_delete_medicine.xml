@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txt_medicine_id_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/textView7"
+        android:layout_toStartOf="@+id/txt_medicine_quantity_del"
+        android:text="id"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_medicine_name_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/txt_medicine_quantity_del"
+        android:text="name "
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_medicine_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:onClick="deleteMedicineFromStore"
+        android:text="DELETE" />
+
+    <TextView
+        android:id="@+id/txt_medicine_form_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txt_medicine_name_del"
+        android:text="medicine form" />
+
+    <TextView
+        android:id="@+id/lbl_medicine_quantity_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_medicine_delete"
+        android:text="quantity:" />
+
+    <TextView
+        android:id="@+id/txt_medicine_quantity_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/lbl_medicine_quantity_del"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/lbl_medicine_quantity_del"
+        android:text="quantity" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/txt_medicine_form_del"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="ID:"
+        tools:text="ID:" />
+
+
+</RelativeLayout>

@@ -208,6 +208,34 @@ public class DataBaseManager extends SQLiteOpenHelper {
         return medicines;
     }
 
+    /**
+     * dbGetAllMedicines
+     * Get all Medicine rows from table MEDICINE_TABLE as ArrayList (for MedicineAdapter)
+     * Params: no params
+     * Return: list of medicine objects
+     */
+    public ArrayList<Medicine> dbGetAllMedicines2() {
+        ArrayList<Medicine> medicines = new ArrayList<>();
+        String selectString = "SELECT * FROM " + MEDICINE_TABLE;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectString, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Medicine medicine = new Medicine();
+                medicine.set_id(cursor.getLong(0));
+                medicine.setName(cursor.getString(1));
+                medicine.setFormMedicine(cursor.getInt(2));
+                medicine.setDose_option(cursor.getInt(3));
+                medicine.setQuantity(cursor.getInt(4));
+
+                medicines.add(medicine);
+            }
+        }
+        cursor.close();
+        return medicines;
+    }
+
+
     //======================================
     //     U P D A T E    M E T H O D S
     //======================================
