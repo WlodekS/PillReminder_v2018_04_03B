@@ -35,7 +35,7 @@ public class DeleteMedicine extends AppCompatActivity{      //ListActivity
     //adapter wielowierszowy:
     private MedicineAdapter mAdapter2;
 
-    //variables to access activity objects:
+    //variables to access listView objects:
     ListView lv;
 
     // Zmienna pomocnicza. Numer wiersza do skasowania.
