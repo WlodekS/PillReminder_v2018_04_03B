@@ -76,14 +76,16 @@ public class MedicineAdapter extends BaseAdapter {
         TextView textViewName = (TextView)view.findViewById(R.id.txt_medicine_name_del);
         TextView textViewForm = (TextView)view.findViewById(R.id.txt_medicine_form_del);
         TextView textViewQuantity = (TextView)view.findViewById(R.id.txt_medicine_quantity_del);
+        TextView textViewDoseOption = (TextView)view.findViewById(R.id.txt_medicine_doseOption_del);
 
         Medicine currentMedicine = mMedicines.get(position);
 
         //Przypisanie wartośi do wyświetlenia:
         textView_id.setText(currentMedicine.get_id().toString());
         textViewName.setText(currentMedicine.getName());
-        textViewForm.setText(currentMedicine.getFormMedicine().toString());
+        textViewForm.setText(currentMedicine.getFormMedicine());
         textViewQuantity.setText(currentMedicine.getQuantity().toString());
+        textViewDoseOption.setText(currentMedicine.getDose_option());
 
         //zwrócenie nowego - innego widoku:
         return view;

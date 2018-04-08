@@ -58,9 +58,8 @@ public class DeleteMedicine extends AppCompatActivity{      //ListActivity
         //updateUI();
         updateUI2();
 
-        SQLiteDatabase db = dbm.getReadableDatabase();
-
-        db.close();
+        //SQLiteDatabase db = dbm.getReadableDatabase();
+        //db.close();
     }
 
     public void deleteMedicineToStore(View view){

@@ -20,13 +20,16 @@ public class StoreActivity extends AppCompatActivity {
     }
 
     public void deleteMedicineToStore(View view){
-        Toast.makeText(this,"AAAA",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"AAAA",Toast.LENGTH_SHORT).show();
         Intent deleteMedicineToStoreIntent = new Intent(StoreActivity.this,DeleteMedicine.class);
         startActivity(deleteMedicineToStoreIntent);
     }
 
     public void checkMedicineInStore(View view){
         Toast.makeText(this,"checkMedicine",Toast.LENGTH_SHORT).show();
+        //Intent checkMedicineToStoreIntent = new Intent(StoreActivity.this,CheckMedicine.class);
+        //startActivity(checkMedicineToStoreIntent);
+
         Intent checkMedicineToStoreIntent = new Intent(StoreActivity.this,CheckMedicine.class);
         startActivity(checkMedicineToStoreIntent);
     }

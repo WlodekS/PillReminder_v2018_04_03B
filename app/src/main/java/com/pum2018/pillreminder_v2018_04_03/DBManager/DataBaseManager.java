@@ -22,7 +22,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     // Database name:
     private static final String DB_NAME = "PillRemDB";
     // Database version:
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 6;
 
     // Table names:
     private static final String MEDICINE_TABLE = "medicines";
@@ -83,9 +83,9 @@ public class DataBaseManager extends SQLiteOpenHelper {
             "CREATE TABLE if not exists " + MEDICINE_TABLE + " ("
                     + MED_KEY_ID + " INTEGER PRIMARY KEY NOT NULL,"
                     + MED_KEY_NAME + " CHAR(30) NOT NULL,"
-                    + MED_KEY_FORM + " INTEGER NOT NULL,"
-                    + MED_KEY_DOSE_OPTION + " INTEGER NOT NULL,"
-                    + MED_KEY_QUANTITY + " INTEGER NOT NULL"
+                    + MED_KEY_FORM + " CHAR(30),"
+                    + MED_KEY_DOSE_OPTION + " CHAR(15),"
+                    + MED_KEY_QUANTITY + " INTEGER"
                     + ");";
 
 
@@ -132,7 +132,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(MED_KEY_NAME, medicine.getName());
         values.put(MED_KEY_FORM, medicine.getFormMedicine());
-        values.put(MED_KEY_DOSE_OPTION, medicine.getQuantity());
+        values.put(MED_KEY_DOSE_OPTION, medicine.getDose_option());
         values.put(MED_KEY_QUANTITY, medicine.getQuantity());
 
 
@@ -169,8 +169,11 @@ public class DataBaseManager extends SQLiteOpenHelper {
             cursor.moveToFirst();
             medicine.set_id(cursor.getLong(0));
             medicine.setName(cursor.getString(1));
-            medicine.setFormMedicine(cursor.getInt(2));
-            medicine.setDose_option(cursor.getInt(3));
+            //medicine.setFormMedicine(cursor.getInt(2));
+            medicine.setFormMedicine(cursor.getString(2));
+            //medicine.setDose_option(cursor.getInt(3));
+            medicine.setDose_option(cursor.getString(3));
+
             medicine.setQuantity(cursor.getInt(4));
         }
         cursor.close();
@@ -197,8 +200,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 Medicine medicine = new Medicine();
                 medicine.set_id(cursor.getLong(0));
                 medicine.setName(cursor.getString(1));
-                medicine.setFormMedicine(cursor.getInt(2));
-                medicine.setDose_option(cursor.getInt(3));
+                //medicine.setFormMedicine(cursor.getInt(2));
+                medicine.setFormMedicine(cursor.getString(2));
+                //medicine.setDose_option(cursor.getInt(3));
+                medicine.setDose_option(cursor.getString(3));
                 medicine.setQuantity(cursor.getInt(4));
 
                 medicines.add(medicine);
@@ -224,8 +229,10 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 Medicine medicine = new Medicine();
                 medicine.set_id(cursor.getLong(0));
                 medicine.setName(cursor.getString(1));
-                medicine.setFormMedicine(cursor.getInt(2));
-                medicine.setDose_option(cursor.getInt(3));
+                //medicine.setFormMedicine(cursor.getInt(2));
+                medicine.setFormMedicine(cursor.getString(2));
+                //medicine.setDose_option(cursor.getInt(3));
+                medicine.setDose_option(cursor.getString(3));
                 medicine.setQuantity(cursor.getInt(4));
 
                 medicines.add(medicine);

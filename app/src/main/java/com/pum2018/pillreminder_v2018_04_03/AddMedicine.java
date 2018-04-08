@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.pum2018.pillreminder_v2018_04_03.DBManager.DataBaseManager;
+import com.pum2018.pillreminder_v2018_04_03.DataModel.FormMedicine;
 import com.pum2018.pillreminder_v2018_04_03.DataModel.Medicine;
 
 public class AddMedicine extends AppCompatActivity {
@@ -85,8 +86,11 @@ public class AddMedicine extends AppCompatActivity {
             //Create param - new Medicine object:
             Medicine newMedicine = new Medicine();
             newMedicine.setName(medicineName);          //name
-            newMedicine.setFormMedicine(realCheck);     //formMedicine (radioButton value)
-            newMedicine.setDose_option(iSpinner);       //dose_option
+            //newMedicine.setFormMedicine(realCheck);     //formMedicine (radioButton value)
+            newMedicine.setFormMedicine(Medicine.FormMedInt2Str(realCheck));
+            //newMedicine.setDose_option(iSpinner);       //dose_option
+            newMedicine.setDose_option(Medicine.DoseOptionInt2Str(iSpinner));
+
             newMedicine.setQuantity(iQuantity);         //quantity
 
             //Saving to Database:
@@ -124,4 +128,6 @@ public class AddMedicine extends AppCompatActivity {
         Toast.makeText(this,"Saving medicine to store",Toast.LENGTH_LONG).show();
 
     }
+
+
 }
