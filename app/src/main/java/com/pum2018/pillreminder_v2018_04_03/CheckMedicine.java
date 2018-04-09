@@ -90,13 +90,14 @@ public class CheckMedicine extends AppCompatActivity {
         checkMedicineIntent.putExtra("Record_ID", id_Int);
         startActivity(checkMedicineIntent);
 
-/*        //Poprawienie danych w tabeli Medicine:
-        dbm.dbDeleteMedicine(medicin_id_to_Delete);
-        updateUI2();        //Refresh Interface
-        medicin_id_to_Delete = 0;*/
-
-
-
     }
 
+    @Override
+    protected void onResume() {
+        // Menu: Code\Generate\Override methods\-Wskazujemy metodę OnResume
+        super.onResume();
+        //For update ListView after Update records:
+        mAdapter2.notifyDataSetChanged();
+        updateUI2();
+    }
 }

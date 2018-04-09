@@ -158,7 +158,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * Param1: id of Medicine object
      * Return: Medicine object
      */
-    public Medicine dbGetMedicine(Long id) {
+    public Medicine dbGetMedicine(Integer id) {
         String sSelectString = "SELECT * FROM " +
                 MEDICINE_TABLE + " WHERE "      +
                 MED_KEY_ID   + " = " + id;
@@ -167,7 +167,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sSelectString, null);
         if (cursor != null){
             cursor.moveToFirst();
-            medicine.set_id(cursor.getLong(0));
+            medicine.set_id(cursor.getInt(0));
             medicine.setName(cursor.getString(1));
             //medicine.setFormMedicine(cursor.getInt(2));
             medicine.setFormMedicine(cursor.getString(2));
@@ -198,7 +198,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         if (cursor != null){
             while(cursor.moveToNext()){
                 Medicine medicine = new Medicine();
-                medicine.set_id(cursor.getLong(0));
+                medicine.set_id(cursor.getInt(0));
                 medicine.setName(cursor.getString(1));
                 //medicine.setFormMedicine(cursor.getInt(2));
                 medicine.setFormMedicine(cursor.getString(2));
@@ -227,7 +227,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 Medicine medicine = new Medicine();
-                medicine.set_id(cursor.getLong(0));
+                medicine.set_id(cursor.getInt(0));
                 medicine.setName(cursor.getString(1));
                 //medicine.setFormMedicine(cursor.getInt(2));
                 medicine.setFormMedicine(cursor.getString(2));

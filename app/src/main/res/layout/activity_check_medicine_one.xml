@@ -256,7 +256,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="30dp"
-                android:onClick="addMedicineToStore"
+                android:onClick="updateMedicineInStore"
                 android:orientation="vertical">
 
                 <ImageButton
@@ -264,7 +264,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:elevation="0dp"
-                    android:onClick="addMedicineToStore"
+                    android:onClick="updateMedicineInStore"
                     app:srcCompat="@mipmap/ic_redeem_black_48dp" />
             </LinearLayout>
         </LinearLayout>

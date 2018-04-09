@@ -49,7 +49,6 @@ public class AddMedicine extends AppCompatActivity {
                 chkId1 = rg1.getCheckedRadioButtonId();
                 rg2.clearCheck();
                 rg2.setOnCheckedChangeListener(listener2);
-
             }
         }
     };

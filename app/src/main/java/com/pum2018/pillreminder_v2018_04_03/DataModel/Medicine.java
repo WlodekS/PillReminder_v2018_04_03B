@@ -5,7 +5,7 @@ package com.pum2018.pillreminder_v2018_04_03.DataModel;
  */
 
 public class Medicine {
-    private Long _id;
+    private Integer _id;
     private String name;
     private String formMedicine;
     private Integer quantity;
@@ -30,7 +30,7 @@ public class Medicine {
 
     //with all params:
 
-    public Medicine(Long _id, String name, String formMedicine, Integer quantity, String dose_option) {
+    public Medicine(Integer _id, String name, String formMedicine, Integer quantity, String dose_option) {
         this._id = _id;
         this.name = name;
         this.formMedicine = formMedicine;
@@ -43,11 +43,11 @@ public class Medicine {
     //Getters and Setters:
     //--------------------
 
-    public Long get_id() {
+    public Integer get_id() {
         return _id;
     }
 
-    public void set_id(Long _id) {
+    public void set_id(Integer _id) {
         this._id = _id;
     }
 
