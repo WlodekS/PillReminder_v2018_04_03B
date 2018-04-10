@@ -1,5 +1,6 @@
 package com.pum2018.pillreminder_v2018_04_03;
 
+
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -26,9 +27,7 @@ public class MainActivity extends AppCompatActivity {
         DataBaseManager dbm = new DataBaseManager(this);
 
         //TEST - kontrolne wypisanie zawartości tabeli Medicines
-        dbm.TEST_TypeTableMedicines();       //Write to LOG: Contenet of table
-
-
+        dbm.TEST_TypeTableMedicines();       //Write to LOG: Content of table
 
     }
 

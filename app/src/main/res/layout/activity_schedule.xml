@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:minHeight="103dp"
     tools:context="com.pum2018.pillreminder_v2018_04_03.ScheduleActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="411dp"
         android:layout_height="106dp"
+        android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/listView_Schedule"
         app:srcCompat="@color/colorImageBackground" />
 
 
@@ -76,5 +79,17 @@
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="@+id/imageView2"
         app:layout_constraintVertical_bias="1.0" />
+
+    <ListView
+        android:id="@+id/listView_Schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:divider="@color/colorListMedineName"
+        android:dividerHeight="2dp"
+        android:layout_marginEnd="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="114dp" />
+
 
 </android.support.constraint.ConstraintLayout>

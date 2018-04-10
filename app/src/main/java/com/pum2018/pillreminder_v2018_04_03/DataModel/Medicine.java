@@ -20,7 +20,6 @@ public class Medicine {
     }
 
     //without _id:
-
     public Medicine(String name, String formMedicine, Integer quantity, String dose_option) {
         this.name = name;
         this.formMedicine = formMedicine;
