@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.pum2018.pillreminder_v2018_04_03.Adapters.TakingsPlanViewForAdapter;
 import com.pum2018.pillreminder_v2018_04_03.DataModel.FormMedicine;
 import com.pum2018.pillreminder_v2018_04_03.DataModel.Medicine;
 import com.pum2018.pillreminder_v2018_04_03.DataModel.TakingsPlan;
@@ -337,30 +338,48 @@ public class DataBaseManager extends SQLiteOpenHelper {
      * Get all needed information from two tables:
      * - TAKINGS_PLAN_TABLE
      * - MEDICINE_TABLE
+     * as ArrayList (for TakingsPlanAdapter)
      * Params: no params
      * Return: list of medicine objects
      */
-    public ArrayList<TakingsPlan> dbGetAllTakingsPlansForListView() {
-        ArrayList<Medicine> medicines = new ArrayList<>();
-        String selectString = "SELECT * FROM " + MEDICINE_TABLE;
+    public ArrayList<TakingsPlanViewForAdapter> dbGetAllTakingsPlansForListView() {
+        ArrayList<TakingsPlanViewForAdapter> tPVFA = new ArrayList<>();
+        //String selectString = "SELECT * FROM " + MEDICINE_TABLE;
+
+        String selectString = "SELECT " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_ID + ", " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_HOUR + ", " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_MINUTE + ", " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_MEDICINE_ID + ", " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_DOSE + ", " +
+                MEDICINE_TABLE + "." + MED_KEY_NAME + ", " +
+                MEDICINE_TABLE + "." + MED_KEY_FORM + ", " +
+                MEDICINE_TABLE + "." + MED_KEY_DOSE_OPTION + "  " +
+                "FROM " + TAKINGS_PLAN_TABLE + " " +
+                "INNER JOIN " + MEDICINE_TABLE + " " +
+                "ON " + TAKINGS_PLAN_TABLE + "." + TPT_KEY_MEDICINE_ID + " = " +
+                MEDICINE_TABLE + "." + MED_KEY_ID;
+
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(selectString, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                Medicine medicine = new Medicine();
-                medicine.set_id(cursor.getInt(0));
-                medicine.setName(cursor.getString(1));
-                //medicine.setFormMedicine(cursor.getInt(2));
-                medicine.setFormMedicine(cursor.getString(2));
-                //medicine.setDose_option(cursor.getInt(3));
-                medicine.setDose_option(cursor.getString(3));
-                medicine.setQuantity(cursor.getInt(4));
+                TakingsPlanViewForAdapter tpvfa = new TakingsPlanViewForAdapter();
 
-                medicines.add(medicine);
+                tpvfa.set_id(cursor.getInt(0));
+                tpvfa.setHour(cursor.getInt(1));
+                tpvfa.setMinute(cursor.getInt(2));
+                tpvfa.setMedicine_id(cursor.getInt(3));
+                tpvfa.setDose(cursor.getInt(4));
+                tpvfa.setMedicineName(cursor.getString(5));
+                tpvfa.setMedKeyfForm(cursor.getString(6));
+                tpvfa.setDoseType(cursor.getString(7));
+
+                tPVFA.add(tpvfa);
             }
         }
         cursor.close();
-        return medicines;
+        return tPVFA;
     }
 
     //======================================

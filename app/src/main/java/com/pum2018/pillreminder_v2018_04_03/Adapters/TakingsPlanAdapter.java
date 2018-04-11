@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.pum2018.pillreminder_v2018_04_03.DataModel.TakingsPlan;
 import com.pum2018.pillreminder_v2018_04_03.R;
+import com.pum2018.pillreminder_v2018_04_03.ScheduleActivity;
 
 import java.util.ArrayList;
 
@@ -18,22 +20,24 @@ import java.util.ArrayList;
 public class TakingsPlanAdapter extends BaseAdapter {
 
     Context mContex;
-    ArrayList<TakingsPlanViewForAdapter> mTakingsPlanViewForAdapter;
+    ArrayList<TakingsPlanViewForAdapter> mTakingsPlanViewForAdapters;
     LayoutInflater mInflater;
 
     //Constructor:
-    public TakingsPlanAdapter(Context c, ArrayList<TakingsPlanViewForAdapter> takingsPlanViewForAdapter) {
+    public TakingsPlanAdapter(Context c, ArrayList<TakingsPlanViewForAdapter> takingsPlanViewForAdapters) {
         this.mContex = c;
-        this.mTakingsPlanViewForAdapter = takingsPlanViewForAdapter;
+        this.mTakingsPlanViewForAdapters = takingsPlanViewForAdapters;
         mInflater = (LayoutInflater) mContex.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
+
+
     public int getCount() {
-        return mTakingsPlanViewForAdapter.size();
+        return mTakingsPlanViewForAdapters.size();
     }
 
     public Object getItem(int position) {
-        return mTakingsPlanViewForAdapter.get(position);
+        return mTakingsPlanViewForAdapters.get(position);
     }
 
     public long getItemId(int position) {
@@ -44,8 +48,8 @@ public class TakingsPlanAdapter extends BaseAdapter {
      * Clears all items from the data set.
      */
     public void clear() {
-        if (this.mTakingsPlanViewForAdapter != null) {
-            this.mTakingsPlanViewForAdapter.clear();
+        if (this.mTakingsPlanViewForAdapters != null) {
+            this.mTakingsPlanViewForAdapters.clear();
             notifyDataSetChanged();
         }
 
@@ -56,30 +60,49 @@ public class TakingsPlanAdapter extends BaseAdapter {
      * @param items The item list to be added.
      */
     public void addAll(ArrayList<TakingsPlanViewForAdapter> items){
-        if(this.mTakingsPlanViewForAdapter == null){
-            this.mTakingsPlanViewForAdapter = new ArrayList<>();
+        if(this.mTakingsPlanViewForAdapters == null){
+            this.mTakingsPlanViewForAdapters = new ArrayList<>();
         }
-        this.mTakingsPlanViewForAdapter.addAll(items);
+        this.mTakingsPlanViewForAdapters.addAll(items);
         notifyDataSetChanged();
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = mInflater.inflate(R.layout.item_schedule, null);
-        Zacznijmy od przemyslenia ID - jak to pokazać żeby było niewidoczne.
-        TextView textView_id = (TextView)view.findViewById(R.id.txt_medicine_id_check);
-        TextView textViewName = (TextView)view.findViewById(R.id.txt_medicine_name_check);
-        TextView textViewForm = (TextView)view.findViewById(R.id.txt_medicine_form_check);
-        TextView textViewQuantity = (TextView)view.findViewById(R.id.txt_medicine_quantity_check);
-        TextView textViewDoseOption = (TextView)view.findViewById(R.id.txt_medicine_doseOption_check);
+        //UWAGA!!! - Zacznijmy od przemyslenia ID - jak to pokazać żeby było niewidoczne.
+        //Ustalam zmienną która przechowuje -id, ale nie będzie wyświetlana:
+        Integer currTakingsPlan_id;
+        //Zmienne do dostępu do obiektów ekranowych:
+        //TextView textView_id = (TextView)view.findViewById(R.id.txt_medicine_id_check);
+        //Hour:
+        TextView textViewHour = (TextView)view.findViewById(R.id.textView_Schedule_Hour);
+        //Dwukropek(Colon):
+        TextView textViewColon = (TextView)view.findViewById(R.id.textView_Schedule_Colon);
+        //Minute:
+        TextView textViewMinute = (TextView)view.findViewById(R.id.textView_Schedule_Minute);
+        //Name:
+        TextView textViewName = (TextView)view.findViewById(R.id.textView_Schedule_MediceName);
+        //Dose:
+        TextView textViewDose = (TextView)view.findViewById(R.id.textView_Schedule_Dose);
 
-        Medicine currentMedicine = mMedicines.get(position);
+
+        TakingsPlanViewForAdapter currentTakingsPlanViewForAdapter = mTakingsPlanViewForAdapters.get(position);
+
+
+        //Przypisanie wartośi NIE do wyświetlenia:
+        currTakingsPlan_id = currentTakingsPlanViewForAdapter.get_id();
 
         //Przypisanie wartośi do wyświetlenia:
-        textView_id.setText(currentMedicine.get_id().toString());
-        textViewName.setText(currentMedicine.getName());
-        textViewForm.setText(currentMedicine.getFormMedicine());
-        textViewQuantity.setText(currentMedicine.getQuantity().toString());
-        textViewDoseOption.setText(currentMedicine.getDose_option());
+        //Hour:
+        textViewHour.setText(currentTakingsPlanViewForAdapter.getHour().toString());
+        //Dwukropek(Colon):
+        textViewColon.setText(":");
+        //Minute:
+        textViewMinute.setText(currentTakingsPlanViewForAdapter.getMinute().toString());
+        //Name:
+        textViewName.setText(currentTakingsPlanViewForAdapter.getMedicineName());
+        //Dose:
+        textViewDose.setText(currentTakingsPlanViewForAdapter.getDose());
 
         //zwrócenie nowego - innego widoku:
         return view;

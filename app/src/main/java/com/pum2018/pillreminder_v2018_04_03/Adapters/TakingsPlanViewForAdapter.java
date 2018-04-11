@@ -8,9 +8,11 @@ import com.pum2018.pillreminder_v2018_04_03.DataModel.TakingsPlan;
  * - TAKINGS_PLAN_TABLE
  * - MEDICINE_TABLE
  * Klasa definiuje obiekt który zostanie wykorzystany w adapterze pobierającym dane z bazy.
- * Klasa wprowadza jedno (potrzebne) dodatkowe pole.
+ * Klasa wprowadza dwa (potrzebne) dodatkowe pola.
  */
 public class TakingsPlanViewForAdapter extends TakingsPlan {
+    private String medicineName;
+    private String medKeyfForm;
     private String doseType;
 
     //-------------
@@ -21,28 +23,60 @@ public class TakingsPlanViewForAdapter extends TakingsPlan {
     }
 
     //without _id:
-    public TakingsPlanViewForAdapter(Integer hour, Integer minute, Integer medicine_id, Integer dose, String doseType) {
+    public TakingsPlanViewForAdapter(Integer hour, Integer minute, Integer medicine_id, Integer dose, String medicineName, String medKeyfForm, String doseType) {
         super(hour, minute, medicine_id, dose);
+        this.medicineName = medicineName;
+        this.medKeyfForm = medKeyfForm;
         this.doseType = doseType;
     }
 
     //with all params:
-    public TakingsPlanViewForAdapter(Integer _id, Integer hour, Integer minute, Integer medicine_id, Integer dose, String doseType) {
+    public TakingsPlanViewForAdapter(Integer _id, Integer hour, Integer minute, Integer medicine_id, Integer dose, String medicineName, String medKeyfForm, String doseType) {
         super(_id, hour, minute, medicine_id, dose);
+        this.medicineName = medicineName;
+        this.medKeyfForm = medKeyfForm;
         this.doseType = doseType;
     }
 
+
+    //--------------------
+    //Getters and Setters:
+    //--------------------
+    public String getMedicineName() {
+        return medicineName;
+    }
+
+    public void setMedicineName(String currMedicineName) {
+        medicineName = currMedicineName;
+    }
+
+    public String getMedKeyfForm() {
+        return medKeyfForm;
+    }
+
+    public void setMedKeyfForm(String medKeyfForm) {
+        this.medKeyfForm = medKeyfForm;
+    }
+
+    public String getDoseType() {
+        return doseType;
+    }
+
+    public void setDoseType(String doseType) {
+        this.doseType = doseType;
+    }
+
+    //----------------
+    //toString method:
+    //----------------
     @Override
     public String toString() {
-        return "TakingsPlan{" +
-                "_id=" + super.get_id() +
-                ", hour=" + super.getHour() +
-                ", minute=" + super.getMinute() +
-                ", medicine_id=" + super.getMedicine_id() +
-                ", dose=" + super.getDose() +
-                ", dosetype" + doseType +
-                '}';
+        return "TakingsPlanViewForAdapter{" +
+                "MedicineName='" + medicineName + '\'' +
+                ", doseType='" + doseType + '\'' +
+                "} " + super.toString();
     }
+
 }
 
 
