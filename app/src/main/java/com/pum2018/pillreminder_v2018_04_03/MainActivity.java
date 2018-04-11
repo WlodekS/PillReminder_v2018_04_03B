@@ -26,8 +26,15 @@ public class MainActivity extends AppCompatActivity {
         //Creating Manager of DataBase:
         DataBaseManager dbm = new DataBaseManager(this);
 
+        //Testowe ładowanie danych gdy nowa wersja bazy:
+        dbm.TEST_LoadDataToDataBase();
+
         //TEST - kontrolne wypisanie zawartości tabeli Medicines
         dbm.TEST_TypeTableMedicines();       //Write to LOG: Content of table
+        //TEST - kontrolne wypisanie zawartości tabeli TaingsPlan:
+        dbm.TEST_TypeTableTakongsPlan();       //Write to LOG: Content of table
+
+        int a=1;
 
     }
 

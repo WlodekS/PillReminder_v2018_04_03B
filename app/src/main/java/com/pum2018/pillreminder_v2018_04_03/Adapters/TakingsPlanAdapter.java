@@ -102,7 +102,7 @@ public class TakingsPlanAdapter extends BaseAdapter {
         //Name:
         textViewName.setText(currentTakingsPlanViewForAdapter.getMedicineName());
         //Dose:
-        textViewDose.setText(currentTakingsPlanViewForAdapter.getDose());
+        textViewDose.setText(currentTakingsPlanViewForAdapter.getDose().toString());
 
         //zwrócenie nowego - innego widoku:
         return view;

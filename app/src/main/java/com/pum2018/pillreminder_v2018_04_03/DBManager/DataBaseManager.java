@@ -24,7 +24,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     // Database name:
     private static final String DB_NAME = "PillRemDB";
     // Database version:
-    private static final int DB_VERSION = 7;
+    private static final int DB_VERSION = 11;
 
     //--------------
     // TABLE NAMES :
@@ -489,9 +489,73 @@ public class DataBaseManager extends SQLiteOpenHelper {
         Log.d("DB", "------------------------------");
         Log.d("DB", "Content of Tables TakingsPlan :");
         Log.d("DB", "------------------------------");
-        for(Medicine m: dbGetAllMedicines() ){ Log.d("DB", m.toString());  }
-        if(dbGetAllMedicines().isEmpty()){Log.d("DB", "Table empty");}
+        for(TakingsPlan tp: dbGetAllTakingsPlans() ){ Log.d("DB", tp.toString());  }
+        if(dbGetAllTakingsPlans().isEmpty()){Log.d("DB", "Table empty");}
         Log.d("DB", "----------------------------");
     }
 
+    public void TEST_LoadDataToDataBase(){
+        if(dbGetAllMedicines().isEmpty()){
+            Log.d("DB", "Load Data to database");
+            SQLiteDatabase db = this.getWritableDatabase();
+            Medicine med = new Medicine();
+            //Medicine 1:
+            med.setName("Aspiryna");
+            med.setFormMedicine("Tablet");
+            med.setQuantity(20);
+            med.setDose_option("szt");
+            dbCreateMedicine(med);
+
+            //Medicine 2:
+            med.setName("Doxycyklina");
+            med.setFormMedicine("Tablet");
+            med.setQuantity(10);
+            med.setDose_option("szt");
+            dbCreateMedicine(med);
+
+            //Medicine 3:
+            med.setName("Espumisan");
+            med.setFormMedicine("Capsule");
+            med.setQuantity(50);
+            med.setDose_option("szt");
+            dbCreateMedicine(med);
+
+            //Medicine 4:
+            med.setName("After 50-ty");
+            med.setFormMedicine("Drops");
+            med.setQuantity(150);
+            med.setDose_option("szt");
+            dbCreateMedicine(med);
+
+            //Tabela TAKINGS_PLAN_TABLE:
+            //Plan 1:
+            TakingsPlan takingsPlan = new TakingsPlan();
+            takingsPlan.setHour(8);
+            takingsPlan.setMinute(0);
+            takingsPlan.setMedicine_id(1);
+            takingsPlan.setDose(1);
+            dbCreateTakingPlan(takingsPlan);
+
+            //Plan 2:
+            takingsPlan.setHour(8);
+            takingsPlan.setMinute(0);
+            takingsPlan.setMedicine_id(2);
+            takingsPlan.setDose(2);
+            dbCreateTakingPlan(takingsPlan);
+
+            //Plan 3:
+            takingsPlan.setHour(12);
+            takingsPlan.setMinute(15);
+            takingsPlan.setMedicine_id(3);
+            takingsPlan.setDose(5);
+            dbCreateTakingPlan(takingsPlan);
+
+            //Plan 4:
+            takingsPlan.setHour(18);
+            takingsPlan.setMinute(10);
+            takingsPlan.setMedicine_id(4);
+            takingsPlan.setDose(10);
+            dbCreateTakingPlan(takingsPlan);
+        }
+    }
 }
