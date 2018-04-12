@@ -24,7 +24,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     // Database name:
     private static final String DB_NAME = "PillRemDB";
     // Database version:
-    private static final int DB_VERSION = 11;
+    private static final int DB_VERSION = 16;
 
     //--------------
     // TABLE NAMES :
@@ -123,6 +123,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //DROP tables:
         db.execSQL("DROP TABLE IF EXISTS " + MEDICINE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + TAKINGS_PLAN_TABLE);
 
         Log.d("DB", "Metoda onUpgrade - Tabele w bazie zostaly skasowane.");
 
@@ -526,6 +527,50 @@ public class DataBaseManager extends SQLiteOpenHelper {
             med.setQuantity(150);
             med.setDose_option("szt");
             dbCreateMedicine(med);
+
+
+            //Medicine 5:
+            med.setName("Diazepan Max");
+            med.setFormMedicine("Tablet");
+            med.setQuantity(10);
+            med.setDose_option("szt");
+            dbCreateMedicine(med);
+
+            //Medicine 6:
+            med.setName("Nurofen Extra");
+            med.setFormMedicine("Drops");
+            med.setQuantity(30);
+            med.setDose_option("szt");
+            dbCreateMedicine(med);
+
+            //Medicine 7:
+            med.setName("Gripex 200mg");
+            med.setFormMedicine("Capsule");
+            med.setQuantity(20);
+            med.setDose_option("szt");
+            dbCreateMedicine(med);
+
+            //Medicine 8:
+            med.setName("Alcepalan");
+            med.setFormMedicine("Plaster");
+            med.setQuantity(10);
+            med.setDose_option("szt");
+            dbCreateMedicine(med);
+
+            //Medicine 9:
+            med.setName("NeoPalion");
+            med.setFormMedicine("Syrup");
+            med.setQuantity(20);
+            med.setDose_option("ml");
+            dbCreateMedicine(med);
+
+            //Medicine 10:
+            med.setName("Xanax Forte");
+            med.setFormMedicine("Globule");
+            med.setQuantity(40);
+            med.setDose_option("szt");
+            dbCreateMedicine(med);
+
 
             //Tabela TAKINGS_PLAN_TABLE:
             //Plan 1:

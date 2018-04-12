@@ -9,63 +9,68 @@
 
     <TextView
         android:id="@+id/textView_Schedule_MediceName"
-        android:layout_width="184dp"
-        android:layout_height="23dp"
+        android:layout_width="207dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/fjalla_one"
         android:text="TextView"
-        android:textSize="20sp"
+        android:textSize="25sp"
+        android:textColor="@color/colorListMedineName"
         app:layout_constraintBottom_toTopOf="@+id/textView_Schedule_Dose"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Minute"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView_Schedule_Dose"
-        android:layout_width="185dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="190dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="37dp"
         android:fontFamily="@font/fjalla_one"
         android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Minute"
-        tools:layout_editor_absoluteY="34dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_Schedule_Hour"
-        android:layout_width="50dp"
-        android:layout_height="51dp"
+        android:layout_width="49dp"
+        android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/fjalla_one"
+        android:gravity="right"
         android:text="TextView"
         android:textSize="30sp"
-        android:gravity="right"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_Schedule_Minute"
-        android:layout_width="50dp"
-        android:layout_height="51dp"
+        android:layout_width="51dp"
+        android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/fjalla_one"
+        android:gravity="left"
         android:text="TextView"
         android:textSize="30sp"
-        android:gravity="left"
         app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Colon"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_Schedule_Colon"
-        android:layout_width="17dp"
-        android:layout_height="51dp"
+        android:layout_width="16dp"
+        android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         android:fontFamily="@font/fjalla_one"
+        android:text="TextView"
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Hour"
         app:layout_constraintTop_toTopOf="parent" />
