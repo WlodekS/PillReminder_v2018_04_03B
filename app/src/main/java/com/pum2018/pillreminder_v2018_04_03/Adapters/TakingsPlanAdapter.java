@@ -13,6 +13,9 @@ import com.pum2018.pillreminder_v2018_04_03.ScheduleActivity;
 
 import java.util.ArrayList;
 
+import static com.pum2018.pillreminder_v2018_04_03.Utility.MyUtil.padLZero;
+
+
 /**
  * Created by Wlodek on 2018-04-10.
  */
@@ -84,7 +87,10 @@ public class TakingsPlanAdapter extends BaseAdapter {
         TextView textViewName = (TextView)view.findViewById(R.id.textView_Schedule_MediceName);
         //Dose:
         TextView textViewDose = (TextView)view.findViewById(R.id.textView_Schedule_Dose);
-
+        //Form:
+        TextView textViewForm = (TextView)view.findViewById(R.id.textView_Form);
+        //DoseOption:
+        TextView textViewDoseOption = (TextView)view.findViewById(R.id.textView_Dose_Option);
 
         TakingsPlanViewForAdapter currentTakingsPlanViewForAdapter = mTakingsPlanViewForAdapters.get(position);
 
@@ -98,11 +104,17 @@ public class TakingsPlanAdapter extends BaseAdapter {
         //Dwukropek(Colon):
         textViewColon.setText(":");
         //Minute:
-        textViewMinute.setText(currentTakingsPlanViewForAdapter.getMinute().toString());
+        //textViewMinute.setText(currentTakingsPlanViewForAdapter.getMinute().toString());
+        textViewMinute.setText(padLZero(currentTakingsPlanViewForAdapter.getMinute().toString()));
         //Name:
         textViewName.setText(currentTakingsPlanViewForAdapter.getMedicineName());
         //Dose:
         textViewDose.setText(currentTakingsPlanViewForAdapter.getDose().toString());
+        //Form:
+        textViewForm.setText(currentTakingsPlanViewForAdapter.getMedKeyfForm().toString());
+        //DoseOption:
+        textViewDoseOption.setText(currentTakingsPlanViewForAdapter.getDoseType().toString());
+        //textViewDoseOption.setText("AA");
 
         //zwrócenie nowego - innego widoku:
         return view;

@@ -1,48 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <TextView
-        android:id="@+id/textView_Schedule_MediceName"
-        android:layout_width="207dp"
-        android:layout_height="25dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/fjalla_one"
-        android:text="TextView"
-        android:textSize="25sp"
-        android:textColor="@color/colorListMedineName"
-        app:layout_constraintBottom_toTopOf="@+id/textView_Schedule_Dose"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
-        app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Minute"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView_Schedule_Dose"
-        android:layout_width="190dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="37dp"
-        android:fontFamily="@font/fjalla_one"
-        android:text="TextView"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Minute"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/textView_Schedule_Hour"
-        android:layout_width="49dp"
+        android:layout_width="39dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/fjalla_one"
         android:gravity="right"
         android:text="TextView"
@@ -52,10 +20,9 @@
 
     <TextView
         android:id="@+id/textView_Schedule_Minute"
-        android:layout_width="51dp"
+        android:layout_width="36dp"
         android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/fjalla_one"
         android:gravity="left"
         android:text="TextView"
@@ -65,14 +32,93 @@
 
     <TextView
         android:id="@+id/textView_Schedule_Colon"
-        android:layout_width="16dp"
+        android:layout_width="12dp"
         android:layout_height="60dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/fjalla_one"
         android:text="TextView"
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Hour"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_Schedule_MediceName"
+        android:layout_width="109dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/fjalla_one"
+        android:text="TextView"
+        android:textColor="@color/colorListMedineName"
+        android:textSize="25sp"
+        app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Minute"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_Schedule_Dose"
+        android:layout_width="110dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/fjalla_one"
+        android:text="TextView"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Minute"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Schedule_MediceName" />
+
+    <TextView
+        android:id="@+id/textView_Form"
+        android:layout_width="83dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/fjalla_one"
+        android:text="TextView"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/textView_Schedule_MediceName"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_Dose_Option"
+        android:layout_width="82dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/fjalla_one"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Dose"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Form" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="Edit"
+        android:onClick="scheduleEdit"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_Dose_Option"
+        app:layout_constraintEnd_toStartOf="@+id/imageView10"
+        app:layout_constraintStart_toEndOf="@+id/textView_Form"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icona_zielone_ok" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="Delete"
+        android:onClick="ScheduleDelete"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_Dose_Option"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icona_czerwony_x" />
+
 
 </android.support.constraint.ConstraintLayout>
