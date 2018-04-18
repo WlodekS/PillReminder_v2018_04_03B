@@ -10,10 +10,13 @@ import android.util.Log;
 import com.pum2018.pillreminder_v2018_04_03.Adapters.TakingsPlanViewForAdapter;
 import com.pum2018.pillreminder_v2018_04_03.DataModel.FormMedicine;
 import com.pum2018.pillreminder_v2018_04_03.DataModel.Medicine;
+import com.pum2018.pillreminder_v2018_04_03.DataModel.Taking;
 import com.pum2018.pillreminder_v2018_04_03.DataModel.TakingsPlan;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 
 /**
  * Created by Wlodek on 2018-04-04.
@@ -24,13 +27,15 @@ public class DataBaseManager extends SQLiteOpenHelper {
     // Database name:
     private static final String DB_NAME = "PillRemDB";
     // Database version:
-    private static final int DB_VERSION = 16;
+    private static final int DB_VERSION = 22;
 
     //--------------
     // TABLE NAMES :
     //--------------
     private static final String MEDICINE_TABLE = "medicines";
     private static final String TAKINGS_PLAN_TABLE = "takingsplan";
+    private static final String RAPORT_TAKINGS_TABLE = "raporttakings";          //Rejestr zażyć medykamentów
+
     //private static final String DOSETYPE_TABLE = "dosetypes";
     //private static final String STORE_TABLE = "store";
     //private static final String REPORT_TABLE = "reports";
@@ -53,6 +58,21 @@ public class DataBaseManager extends SQLiteOpenHelper {
     private static final String TPT_KEY_MINUTE = "minute";
     private static final String TPT_KEY_MEDICINE_ID = "medicine_id";
     private static final String TPT_KEY_DOSE = "dose";
+    private static final String TPT_KEY_DAY_SUN = "day_sun";
+    private static final String TPT_KEY_DAY_MON = "day_mon";
+    private static final String TPT_KEY_DAY_TUE = "day_tue";
+    private static final String TPT_KEY_DAY_WED = "day_wed";
+    private static final String TPT_KEY_DAY_THU = "day_thu";
+    private static final String TPT_KEY_DAY_FRI = "day_fri";
+    private static final String TPT_KEY_DAY_SAT = "day_sat";
+
+    // RAPORT_TAKINGS_TABLE table columns:
+    private static final String RTT_KEY_ID = "_id";
+    private static final String RTT_KEY_DATE = "date";
+    private static final String RTT_KEY_MEDICINE_NAME = "medicine_name";
+    private static final String RTT_KEY_PLANNED_TIME = "planned_time";
+    private static final String RTT_KEY_TAKINGS_TIME = "taking_time";
+
     //private static final String TPT_KEY_DOSETYPE_ID = "dosetype_id";
 
 //    // DOSETYPE table columns:
@@ -92,7 +112,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
                     + MED_KEY_QUANTITY + " INTEGER"
                     + ");";
 
-    // Taking Table - create string:
+    // Takings Plan  Table - create string:
     private static final String CREATE_TAKINGS_PLAN_TABLE =
             "CREATE TABLE if not exists " + TAKINGS_PLAN_TABLE + " ("
                     + TPT_KEY_ID + " INTEGER PRIMARY KEY NOT NULL,"
@@ -100,9 +120,26 @@ public class DataBaseManager extends SQLiteOpenHelper {
                     + TPT_KEY_MINUTE + " INTEGER, "
                     + TPT_KEY_MEDICINE_ID + " INTEGER NOT NULL,"
                     + TPT_KEY_DOSE + " INTEGER,"
+                    + TPT_KEY_DAY_SUN + " INTEGER DEFAULT 0,"
+                    + TPT_KEY_DAY_MON + " INTEGER DEFAULT 0,"
+                    + TPT_KEY_DAY_TUE + " INTEGER DEFAULT 0,"
+                    + TPT_KEY_DAY_WED + " INTEGER DEFAULT 0,"
+                    + TPT_KEY_DAY_THU + " INTEGER DEFAULT 0,"
+                    + TPT_KEY_DAY_FRI + " INTEGER DEFAULT 0,"
+                    + TPT_KEY_DAY_SAT + " INTEGER DEFAULT 0,"
                     + "FOREIGN KEY (" + TPT_KEY_MEDICINE_ID + ") REFERENCES " + MEDICINE_TABLE + "(" + MED_KEY_ID + ") "
                     + ");";
 
+
+    // RAPORT_TAKINGS_TABLE - create string:
+    private static final String CREATE_RAPORT_TAKINGS_TABLE =
+            "CREATE TABLE if not exists " + RAPORT_TAKINGS_TABLE + " ("
+                    + RTT_KEY_ID + " INTEGER PRIMARY KEY NOT NULL,"
+                    + RTT_KEY_DATE + " TEXT NOT NULL,"
+                    + RTT_KEY_MEDICINE_NAME + " TEXT NOT NULL,"
+                    + RTT_KEY_PLANNED_TIME + " TEXT NOT NULL,"
+                    + RTT_KEY_TAKINGS_TIME + " TEXT NOT NULL"
+                    + ");";
 
     // Constructor:
     public DataBaseManager(Context context){
@@ -115,6 +152,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         //Creating tables:
         db.execSQL(CREATE_MEDICINE_TABLE);
         db.execSQL(CREATE_TAKINGS_PLAN_TABLE);
+        db.execSQL(CREATE_RAPORT_TAKINGS_TABLE);
         Log.d("DB", "Metoda onCreate - Baza danych zostala utworzona.");
     }
 
@@ -124,6 +162,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
         //DROP tables:
         db.execSQL("DROP TABLE IF EXISTS " + MEDICINE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + TAKINGS_PLAN_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + RAPORT_TAKINGS_TABLE);
 
         Log.d("DB", "Metoda onUpgrade - Tabele w bazie zostaly skasowane.");
 
@@ -177,6 +216,13 @@ public class DataBaseManager extends SQLiteOpenHelper {
         values.put(TPT_KEY_MINUTE, takingsPlan.getMinute());
         values.put(TPT_KEY_MEDICINE_ID, takingsPlan.getMedicine_id());
         values.put(TPT_KEY_DOSE, takingsPlan.getDose());
+        values.put(TPT_KEY_DAY_SUN, takingsPlan.getDay_sunday());
+        values.put(TPT_KEY_DAY_MON, takingsPlan.getDay_monday());
+        values.put(TPT_KEY_DAY_TUE, takingsPlan.getDay_tuesday());
+        values.put(TPT_KEY_DAY_WED, takingsPlan.getDay_wednesday());
+        values.put(TPT_KEY_DAY_THU, takingsPlan.getDay_thursday());
+        values.put(TPT_KEY_DAY_FRI, takingsPlan.getDay_friday());
+        values.put(TPT_KEY_DAY_SAT, takingsPlan.getDay_saturday());
 
         //Insert row:
         long takingsPlan_id = db.insertOrThrow(TAKINGS_PLAN_TABLE, null, values);
@@ -185,6 +231,29 @@ public class DataBaseManager extends SQLiteOpenHelper {
         Log.d("DB", "Table: " + TAKINGS_PLAN_TABLE  + ". Record added. _id= " + takingsPlan_id);
 
         return takingsPlan_id;
+    }
+
+    /**
+     * dbCreateTakings
+     * takes a Takings object and inserts the data into the database
+     * Return: _id (long) generated by the database for the added taking
+     */
+    public long dbCreateTakings(Taking taking) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(RTT_KEY_ID, taking.get_id());
+        values.put(RTT_KEY_DATE, taking.getDate());
+        values.put(RTT_KEY_MEDICINE_NAME, taking.getMedicine_name());
+        values.put(RTT_KEY_PLANNED_TIME, taking.getPlannedtime());
+        values.put(RTT_KEY_TAKINGS_TIME, taking.getTakingtime());
+
+        //Insert row:
+        long taking_id = db.insertOrThrow(RAPORT_TAKINGS_TABLE, null, values);
+
+        //LOG CAT:
+        Log.d("DB", "Table: " + RAPORT_TAKINGS_TABLE  + ". Record added. _id= " + taking_id);
+
+        return taking_id;
     }
 
     //========================================
@@ -223,7 +292,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     /**
      * dbGetTakingsPlan
-     * Get a Taking object from the table TAKING_TABLE
+     * Get a Taking object from the table TAKINGS_PLAN_TABLE
      * Param1: id of TakingsPlan object
      * Return: TakingsPlan object
      */
@@ -241,10 +310,44 @@ public class DataBaseManager extends SQLiteOpenHelper {
             takingsPlan.setMinute(cursor.getInt(2));
             takingsPlan.setMedicine_id(cursor.getInt(3));
             takingsPlan.setDose(cursor.getInt(4));
+            takingsPlan.setDay_sunday(cursor.getInt(5));
+            takingsPlan.setDay_monday(cursor.getInt(6));
+            takingsPlan.setDay_tuesday(cursor.getInt(7));
+            takingsPlan.setDay_wednesday(cursor.getInt(8));
+            takingsPlan.setDay_thursday(cursor.getInt(9));
+            takingsPlan.setDay_friday(cursor.getInt(10));
+            takingsPlan.setDay_saturday(cursor.getInt(11));
         }
         cursor.close();
         return takingsPlan;
     }
+
+    /**
+     * dbGetTaking
+     * Get a Taking object from the table TAKING_TABLE
+     * Param1: id of TakingsPlan object
+     * Return: TakingsPlan object
+     */
+    public Taking dbGetTaking(Integer id) {
+        String sSelectString = "SELECT * FROM " +
+                RAPORT_TAKINGS_TABLE + " WHERE "      +
+                RTT_KEY_ID   + " = " + id;
+        Taking taking = new Taking();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(sSelectString, null);
+        if (cursor != null){
+            cursor.moveToFirst();
+            taking.set_id(cursor.getInt(0));
+            taking.setDate(cursor.getString(1));
+            taking.setMedicine_name(cursor.getString(2));
+            taking.setPlannedtime(cursor.getString(3));
+            taking.setTakingtime(cursor.getString(4));
+        }
+        cursor.close();
+        return taking;
+    }
+
+
     //---------------------------
     // Get list of all elements :
     //---------------------------
@@ -326,6 +429,14 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 takingsPlan.setMinute(cursor.getInt(2));
                 takingsPlan.setMedicine_id(cursor.getInt(3));
                 takingsPlan.setDose(cursor.getInt(4));
+                takingsPlan.setDay_sunday(cursor.getInt(5));
+                takingsPlan.setDay_monday(cursor.getInt(6));
+                takingsPlan.setDay_tuesday(cursor.getInt(7));
+                takingsPlan.setDay_wednesday(cursor.getInt(8));
+                takingsPlan.setDay_thursday(cursor.getInt(9));
+                takingsPlan.setDay_friday(cursor.getInt(10));
+                takingsPlan.setDay_saturday(cursor.getInt(11));
+
                 takingsPlans.add(takingsPlan);
             }
         }
@@ -353,6 +464,13 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 TAKINGS_PLAN_TABLE + "." + TPT_KEY_MINUTE + ", " +
                 TAKINGS_PLAN_TABLE + "." + TPT_KEY_MEDICINE_ID + ", " +
                 TAKINGS_PLAN_TABLE + "." + TPT_KEY_DOSE + ", " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_DAY_SUN + ", " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_DAY_MON + ", " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_DAY_TUE + ", " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_DAY_WED + ", " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_DAY_THU + ", " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_DAY_FRI + ", " +
+                TAKINGS_PLAN_TABLE + "." + TPT_KEY_DAY_SAT + ", " +
                 MEDICINE_TABLE + "." + MED_KEY_NAME + ", " +
                 MEDICINE_TABLE + "." + MED_KEY_FORM + ", " +
                 MEDICINE_TABLE + "." + MED_KEY_DOSE_OPTION + "  " +
@@ -372,15 +490,55 @@ public class DataBaseManager extends SQLiteOpenHelper {
                 tpvfa.setMinute(cursor.getInt(2));
                 tpvfa.setMedicine_id(cursor.getInt(3));
                 tpvfa.setDose(cursor.getInt(4));
-                tpvfa.setMedicineName(cursor.getString(5));
-                tpvfa.setMedKeyfForm(cursor.getString(6));
-                tpvfa.setDoseType(cursor.getString(7));
+                tpvfa.setDay_sunday(cursor.getInt(5));
+                tpvfa.setDay_monday(cursor.getInt(6));
+                tpvfa.setDay_tuesday(cursor.getInt(7));
+                tpvfa.setDay_wednesday(cursor.getInt(8));
+                tpvfa.setDay_thursday(cursor.getInt(9));
+                tpvfa.setDay_friday(cursor.getInt(10));
+                tpvfa.setDay_saturday(cursor.getInt(11));
+                tpvfa.setMedicineName(cursor.getString(12));
+                tpvfa.setMedKeyfForm(cursor.getString(13));
+                tpvfa.setDoseType(cursor.getString(14));
 
                 tPVFA.add(tpvfa);
             }
         }
         cursor.close();
         return tPVFA;
+    }
+
+    /**
+     *
+     * dbGetAllTakings
+     * Get all needed information from table:
+     * - RAPORT_TAKINGS_TABLE
+     * as ArrayList (for TakingAdapter)
+     * Params: no params
+     * Return: list of Taking objects
+     */
+    public ArrayList<Taking> dbGetAllTakings() {
+        ArrayList<Taking> takings = new ArrayList<>();
+
+        String selectString = "SELECT * FROM " + RAPORT_TAKINGS_TABLE;
+
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectString, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Taking taking = new Taking();
+
+                taking.set_id(cursor.getInt(0));
+                taking.setDate(cursor.getString(1));
+                taking.setMedicine_name(cursor.getString(2));
+                taking.setPlannedtime(cursor.getString(3));
+                taking.setTakingtime(cursor.getString(4));
+
+                takings.add(taking);
+            }
+        }
+        cursor.close();
+        return takings;
     }
 
     //======================================
@@ -423,6 +581,14 @@ public class DataBaseManager extends SQLiteOpenHelper {
         values.put(TPT_KEY_MINUTE, takingsPlan.getMinute());
         values.put(TPT_KEY_MEDICINE_ID, takingsPlan.getMedicine_id());
         values.put(TPT_KEY_DOSE, takingsPlan.getDose());
+        values.put(TPT_KEY_DAY_SUN, takingsPlan.getDay_sunday());
+        values.put(TPT_KEY_DAY_MON, takingsPlan.getDay_monday());
+        values.put(TPT_KEY_DAY_TUE, takingsPlan.getDay_tuesday());
+        values.put(TPT_KEY_DAY_WED, takingsPlan.getDay_wednesday());
+        values.put(TPT_KEY_DAY_THU, takingsPlan.getDay_thursday());
+        values.put(TPT_KEY_DAY_FRI, takingsPlan.getDay_friday());
+        values.put(TPT_KEY_DAY_SAT, takingsPlan.getDay_saturday());
+
         //Put _id of store in the list of arguments:
         String[] args = {String.valueOf(takingsPlan.get_id())};
         //Update row:
@@ -432,6 +598,30 @@ public class DataBaseManager extends SQLiteOpenHelper {
         Log.d("DB", "Table: " + TAKINGS_PLAN_TABLE  + ". Record updated. _id= " + takingsPlan.get_id());
     }
 
+
+    /**
+     * dbUpdateTakingsPlan
+     * Update a dbUpdateTakingsPlan object in the table TAKINGS_PLAN_TABLE
+     * Param1: Taking object
+     * Return: nothing
+     */
+    public void dbUpdateTaking(Taking taking) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(RTT_KEY_ID, taking.get_id());
+        values.put(RTT_KEY_DATE, taking.getDate());
+        values.put(RTT_KEY_MEDICINE_NAME, taking.getMedicine_name());
+        values.put(RTT_KEY_PLANNED_TIME, taking.getPlannedtime());
+        values.put(RTT_KEY_TAKINGS_TIME, taking.getTakingtime());
+
+        //Put _id of store in the list of arguments:
+        String[] args = {String.valueOf(taking.get_id())};
+        //Update row:
+        db.update(TAKINGS_PLAN_TABLE, values, TPT_KEY_ID+"=?", args);
+
+        //LOG CAT:
+        Log.d("DB", "Table: " + TAKINGS_PLAN_TABLE  + ". Record updated. _id= " + taking.get_id());
+    }
 
     //======================================
     //     D E L E T E    M E T H O D S
@@ -470,6 +660,21 @@ public class DataBaseManager extends SQLiteOpenHelper {
         Log.d("DB", "Table: " + TAKINGS_PLAN_TABLE  + ". Record deleted. _id= " + takingsPlanID);
     }
 
+    /**
+     * dbDeleteTakingsPlan
+     * delete a TakingsPlan object in the table TAKINGS_PLAN_TABLE by his _id
+     * Param1: _id of TakingsPlan object
+     * Return: nothing
+     */
+    public void dbDeleteTaking(Integer takingID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] args = {"" + takingID};
+        //delete row where _id=takingID:
+        db.delete(RAPORT_TAKINGS_TABLE, "_id=?", args);
+
+        //LOG CAT:
+        Log.d("DB", "Table: " + RAPORT_TAKINGS_TABLE  + ". Record deleted. _id= " + takingID);
+    }
 
     //==================================
     //     T E S T    M E T H O D S
@@ -492,6 +697,16 @@ public class DataBaseManager extends SQLiteOpenHelper {
         Log.d("DB", "------------------------------");
         for(TakingsPlan tp: dbGetAllTakingsPlans() ){ Log.d("DB", tp.toString());  }
         if(dbGetAllTakingsPlans().isEmpty()){Log.d("DB", "Table empty");}
+        Log.d("DB", "----------------------------");
+    }
+
+    public void TEST_TypeTableTakings(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Log.d("DB", "---------------------------");
+        Log.d("DB", "Content of Tables TAKINGS :");
+        Log.d("DB", "---------------------------");
+        for(Taking t: dbGetAllTakings() ){ Log.d("DB", t.toString());  }
+        if(dbGetAllTakings().isEmpty()){Log.d("DB", "Table empty");}
         Log.d("DB", "----------------------------");
     }
 
@@ -600,7 +815,55 @@ public class DataBaseManager extends SQLiteOpenHelper {
             takingsPlan.setMinute(10);
             takingsPlan.setMedicine_id(4);
             takingsPlan.setDose(10);
+            takingsPlan.setDay_sunday(1);   //1=true!
+            takingsPlan.setDay_monday(1);   //1=true!
+            takingsPlan.setDay_tuesday(1);   //1=true!
             dbCreateTakingPlan(takingsPlan);
+
+            //Tabela RAPORT_TAKINGS_TABLE:
+            //Taking 1:
+            dbCreateTakings(new Taking(
+                    "2018-01-01",
+                    "Doxycyklina",
+                    "08:00",
+                    "08:10"));
+
+            //Taking 2:
+            dbCreateTakings(new Taking(
+                    "2018-01-01",
+                    "Gripex 200mg",
+                    "12:00",
+                    "12:30"));
+
+            //Taking 3:
+            dbCreateTakings(new Taking(
+                    "2018-01-01",
+                    "Espumisan",
+                    "18:00",
+                    "19:30"));
+
+            //Taking 4:
+            dbCreateTakings(new Taking(
+                    "2018-01-02",
+                    "Doxycyklina",
+                    "08:00",
+                    "9:30"));
+
+            //Taking 5:
+            dbCreateTakings(new Taking(
+                    "2018-01-02",
+                    "Gripex 200mg",
+                    "12:00",
+                    "12:10"));
+
+            //Taking 6:
+            dbCreateTakings(new Taking(
+                    "2018-01-02",
+                    "Espumisan",
+                    "18:00",
+                    "18:30"));
+
+
         }
     }
 }

@@ -6,5 +6,8 @@
     <color name="colorImageBackground">#5a7e8c</color>
     <color name="colorListMedineName">#4aa2bc</color>
     <color name="colorListViewSelectedItem">#9fcbd6</color>
+    <color name="colorListView_DayActive">#042e40</color>
+    <color name="colorListView_DayNOActive">#5a7a8c</color>
+
 </resources>
 

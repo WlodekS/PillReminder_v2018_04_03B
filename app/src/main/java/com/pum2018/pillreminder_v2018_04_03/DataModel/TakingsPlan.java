@@ -11,6 +11,14 @@ public class TakingsPlan {
     private Integer minute;
     private Integer medicine_id;
     private Integer dose;
+    private Integer day_sunday;
+    private Integer day_monday;
+    private Integer day_tuesday;
+    private Integer day_wednesday;
+    private Integer day_thursday;
+    private Integer day_friday;
+    private Integer day_saturday;
+
 
 
     //-------------
@@ -21,7 +29,7 @@ public class TakingsPlan {
     public TakingsPlan() {
     }
 
-    //without _id:
+    //main params without _id:
     public TakingsPlan(Integer hour, Integer minute, Integer medicine_id, Integer dose) {
         this.hour = hour;
         this.minute = minute;
@@ -29,13 +37,67 @@ public class TakingsPlan {
         this.dose = dose;
     }
 
-    //with all params:
+    //main params with _id:
     public TakingsPlan(Integer _id, Integer hour, Integer minute, Integer medicine_id, Integer dose) {
         this._id = _id;
         this.hour = hour;
         this.minute = minute;
         this.medicine_id = medicine_id;
         this.dose = dose;
+    }
+
+    //All params (with days) without _id:
+
+    public TakingsPlan(Integer hour,
+                       Integer minute,
+                       Integer medicine_id,
+                       Integer dose,
+                       Integer day_sunday,
+                       Integer day_monday,
+                       Integer day_tuesday,
+                       Integer day_wednesday,
+                       Integer day_thursday,
+                       Integer day_friday,
+                       Integer day_saturday) {
+        this.hour = hour;
+        this.minute = minute;
+        this.medicine_id = medicine_id;
+        this.dose = dose;
+        this.day_sunday = day_sunday;
+        this.day_monday = day_monday;
+        this.day_tuesday = day_tuesday;
+        this.day_wednesday = day_wednesday;
+        this.day_thursday = day_thursday;
+        this.day_friday = day_friday;
+        this.day_saturday = day_saturday;
+    }
+
+    //All params (with days) with _id:
+
+    public TakingsPlan(Integer _id,
+                       Integer hour,
+                       Integer minute,
+                       Integer medicine_id,
+                       Integer dose,
+                       Integer day_sunday,
+                       Integer day_monday,
+                       Integer day_tuesday,
+                       Integer day_wednesday,
+                       Integer day_thursday,
+                       Integer day_friday,
+                       Integer day_saturday) {
+        this._id = _id;
+        this.hour = hour;
+        this.minute = minute;
+        this.medicine_id = medicine_id;
+        this.dose = dose;
+        this.day_sunday = day_sunday;
+        this.day_monday = day_monday;
+        this.day_tuesday = day_tuesday;
+        this.day_wednesday = day_wednesday;
+        this.day_thursday = day_thursday;
+        this.day_friday = day_friday;
+        this.day_saturday = day_saturday;
     }
 
 
@@ -83,10 +145,62 @@ public class TakingsPlan {
         this.dose = dose;
     }
 
+    public Integer getDay_sunday() {
+        return day_sunday;
+    }
 
-    //----------------
-    //toString method:
-    //----------------
+    public void setDay_sunday(Integer day_sunday) {
+        this.day_sunday = day_sunday;
+    }
+
+    public Integer getDay_monday() {
+        return day_monday;
+    }
+
+    public void setDay_monday(Integer day_monday) {
+        this.day_monday = day_monday;
+    }
+
+    public Integer getDay_tuesday() {
+        return day_tuesday;
+    }
+
+    public void setDay_tuesday(Integer day_tuesday) {
+        this.day_tuesday = day_tuesday;
+    }
+
+    public Integer getDay_wednesday() {
+        return day_wednesday;
+    }
+
+    public void setDay_wednesday(Integer day_wednesday) {
+        this.day_wednesday = day_wednesday;
+    }
+
+    public Integer getDay_thursday() {
+        return day_thursday;
+    }
+
+    public void setDay_thursday(Integer day_thursday) {
+        this.day_thursday = day_thursday;
+    }
+
+    public Integer getDay_friday() {
+        return day_friday;
+    }
+
+    public void setDay_friday(Integer day_friday) {
+        this.day_friday = day_friday;
+    }
+
+    public Integer getDay_saturday() {
+        return day_saturday;
+    }
+
+    public void setDay_saturday(Integer day_saturday) {
+        this.day_saturday = day_saturday;
+    }
+
     @Override
     public String toString() {
         return "TakingsPlan{" +
@@ -95,7 +209,13 @@ public class TakingsPlan {
                 ", minute=" + minute +
                 ", medicine_id=" + medicine_id +
                 ", dose=" + dose +
+                ", day_sunday=" + day_sunday +
+                ", day_monday=" + day_monday +
+                ", day_tuesday=" + day_tuesday +
+                ", day_wednesday=" + day_wednesday +
+                ", day_thursday=" + day_thursday +
+                ", day_friday=" + day_friday +
+                ", day_saturday=" + day_saturday +
                 '}';
     }
-
 }

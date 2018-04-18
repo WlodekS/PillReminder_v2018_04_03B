@@ -2,20 +2,22 @@ package com.pum2018.pillreminder_v2018_04_03;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pum2018.pillreminder_v2018_04_03.Adapters.MedicineAdapter_Check;
+
 import com.pum2018.pillreminder_v2018_04_03.Adapters.TakingsPlanAdapter;
 import com.pum2018.pillreminder_v2018_04_03.Adapters.TakingsPlanViewForAdapter;
 import com.pum2018.pillreminder_v2018_04_03.DBManager.DataBaseManager;
-import com.pum2018.pillreminder_v2018_04_03.DataModel.TakingsPlan;
+
 
 import java.util.ArrayList;
 
@@ -90,13 +92,15 @@ public class ScheduleActivity extends AppCompatActivity {
     public void ScheduleDelete(View view){
         Toast.makeText(this,"Schedule Delete", Toast.LENGTH_SHORT).show();
 
-//        //Popraić bo żywcem przekopiowane !!!  (z DeleteMedicine!!!)######:
-//        View parent = (View) view.getParent();
-//        TextView idTextView = (TextView) parent.findViewById(R.id.txt_medicine_id_del);
-//        String id_String = String.valueOf(idTextView.getText());
-//        int id_Int = Integer.parseInt(id_String);       // wartość _id jako Integer
-//        //Zapisujemy tą wartość do zmiennej deklarowanej w klasie:
-//        schedule_id_to_Delete = id_Int;
+//        //Poprawić bo żywcem przekopiowane !!!  (z DeleteMedicine!!!)######:
+        View parent = (View) view.getParent();
+        TextView textView_currID = (TextView) parent.findViewById(R.id.textView_current_ID);
+        String id_String = String.valueOf(textView_currID.getText());
+        int id_Int = Integer.parseInt(id_String);       // wartość _id jako Integer
+        //Zapisujemy tą wartość do zmiennej deklarowanej w klasie:
+        schedule_id_to_Delete = id_Int;
+
+
 
         //-----------------------------
         // Alert Dialog: Are you sure?
@@ -110,9 +114,9 @@ public class ScheduleActivity extends AppCompatActivity {
                     public void onClick(DialogInterface arg0, int arg1) {
                         //Skasowanie z bazy ###
                         //Akcja musi być w tym miejscu - to jest chyba jakiś inny wątek...
-                        //dbm.dbDeleteMedicine(schedule_id_to_Delete);
-                        //updateUI2();        //Refresh Interface
-                        //medicin_id_to_Delete = 0;
+                        dbm.dbDeleteTakingsPlan(schedule_id_to_Delete);
+                        updateUI2();        //Refresh Interface
+                        schedule_id_to_Delete = 0;  //zerowanie zmiennej - niepotrzebne, ale dla bezpieczeństwa
                     }
                 });
         alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
@@ -129,5 +133,27 @@ public class ScheduleActivity extends AppCompatActivity {
 
     public void scheduleEdit(View view){
         Toast.makeText(this,"Schedule Edit", Toast.LENGTH_SHORT).show();
+
+
+        //Aktualizacja pojedynczego rekodu:
+        View parent = (View) view.getParent();
+        TextView textView_currID = (TextView) parent.findViewById(R.id.textView_current_ID);
+        String id_String = String.valueOf(textView_currID.getText());
+        Integer id_Int = Integer.parseInt(id_String);       // wartość _id jako Integer
+
+        //Wywołamy teraz nową formatkę - przekażemy do niej numer rekordu w tabeli TAKINGS_PLAN_TABLE.
+        //Rekord ten bedzie w wywoływanej formatce aktualizowany
+        //Help: http://hmkcode.com/android-passing-data-to-another-activities/
+        Intent editScheduleIntent = new Intent(this,ScheduleNewUpdateActivity.class);
+
+        //TEST:
+        //Intent intent = new Intent(this,SettingsActivity.class);
+        //startActivity(intent);
+
+        // Put key/value data
+        editScheduleIntent.putExtra("Record_ID", id_Int);
+        startActivity(editScheduleIntent);
     }
+
+
 }

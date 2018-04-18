@@ -5,14 +5,17 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.pum2018.pillreminder_v2018_04_03.DBManager.DataBaseManager;
 
+import java.util.Date;
+
 import static android.widget.Toast.LENGTH_SHORT;
-
-
+import static com.pum2018.pillreminder_v2018_04_03.Utility.MyUtil.get_yyyyMMddFromDate;
+import static com.pum2018.pillreminder_v2018_04_03.Utility.MyUtil.get_HH_MM_fromDate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +36,21 @@ public class MainActivity extends AppCompatActivity {
         dbm.TEST_TypeTableMedicines();       //Write to LOG: Content of table
         //TEST - kontrolne wypisanie zawartości tabeli TaingsPlan:
         dbm.TEST_TypeTableTakongsPlan();       //Write to LOG: Content of table
+        //TEST - kontrolne wypisanie zawartości tabeli Taking:
+        dbm.TEST_TypeTableTakings();       //Write to LOG: Content of table
 
+        //Cwiczenia ze zmiennymi doobslugi daty:
+        Log.d("DB", "---------------");
+        Log.d("DB", "Date and time :");
+        Log.d("DB", "---------------");
+        Date date = new Date();
+        Log.d("DB", "Date(0.ToString():" + date.toString());
+        String sData = get_yyyyMMddFromDate(date);
+        Log.d("DB", "get_yyyyMMddFromDate(date):" + sData);
+        String sTime = get_HH_MM_fromDate(date);
+        Log.d("DB", "get_HH_MM_fromDate(date):" + sTime);
+
+        Log.d("DB", "----------------------------");
         int a=1;
 
     }

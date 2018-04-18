@@ -75,6 +75,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CheckMedicine" />
         </activity>
+        <activity
+            android:name=".ScheduleNewUpdateActivity"
+            android:parentActivityName=".ScheduleActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduleActivity" />
+        </activity>
 
     </application>
 
