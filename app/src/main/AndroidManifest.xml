@@ -83,6 +83,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ScheduleActivity" />
         </activity>
+        <activity
+            android:name=".SelectMedicine"
+            android:parentActivityName=".ScheduleNewUpdateActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.pum2018.pillreminder_v2018_04_03.ScheduleNewUpdateActivity" />
+        </activity>
 
     </application>
 

@@ -1,22 +1,31 @@
 package com.pum2018.pillreminder_v2018_04_03;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TimePicker;
+
+
+import java.util.Calendar;
 
 import com.pum2018.pillreminder_v2018_04_03.DBManager.DataBaseManager;
 import com.pum2018.pillreminder_v2018_04_03.DataModel.Medicine;
 import com.pum2018.pillreminder_v2018_04_03.DataModel.TakingsPlan;
 
+import java.util.Calendar;
+
 import static com.pum2018.pillreminder_v2018_04_03.R.layout.activity_schedule_new_update;
+import static com.pum2018.pillreminder_v2018_04_03.Utility.MyUtil.padLZero;
 
 
 /**
@@ -40,6 +49,16 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
     TextView title;
     //SetDay:
     CheckBox cb_Sun, cb_Mon,cb_Tue,cb_Wed,cb_Thu,cb_Fri,cb_Sat;
+
+    //Do obsługi zegarka (ustawianie czasu):
+    TextView tvClock;
+    Calendar currentTime;
+    int hour, mhour, minute;
+    String format;
+
+    //Do obsługi wyboru Medicine:
+    TextView tvMedicine;
+    Button btn_SelectMedicine;
 
     //EditText editMedicine, editQuantity;
     //RadioGroup rg1, rg2;
@@ -76,6 +95,47 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
         cb_Fri = (CheckBox)findViewById(R.id.checkBox6);
         cb_Sat = (CheckBox)findViewById(R.id.checkBox7);;
 
+        //variable to access to Medicine Name and Form:
+        TextView tv_current_MedicineName = (TextView)findViewById(R.id.textView_Medicine);
+        TextView tv_current_MedicineForm = (TextView)findViewById(R.id.textView_FormMedicine);
+
+
+        //Do obsługi wyskakującego zegarka do ustawiania czasu:
+        tvClock = (TextView) findViewById(R.id.textViewClock);
+        currentTime = Calendar.getInstance();
+        hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        minute = currentTime.get(Calendar.MINUTE);
+        //mhour = selectedTimeFormat(hour);
+        tvClock.setText(hour + " : " + minute); //+ " " + format);
+        tvClock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(ScheduleNewUpdateActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        //hourOfDay = selectedTimeFormat(hourOfDay);
+                        tvClock.setText(hourOfDay + " : " + minute + " " + format);
+                    }
+                }, hour , minute, true);
+                timePickerDialog.show();
+            }
+        });
+
+/*        //Do obsługi wyboru Medicine (Buttonem):
+        //tvMedicine = (TextView) findViewById(R.id.textView_Medicine);
+        btn_SelectMedicine = (Button) findViewById(R.id.buttonSelectMedicine);
+        //tvMedicine.setOnClickListener(new View.OnClickListener() {
+        btn_SelectMedicine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Wywołamy teraz nową formatkę - przekażemy do niej numer rekordu w tabeli Medicine.
+                //Rekord ten bedzie w wywoływanej formatce wykorzystany do podswietlenia
+                Intent selectMedicineIntent = new Intent(this,SelectMedicine.class);
+                // Put key/value data
+                checkMedicineIntent.putExtra("Record_ID", id_Int);
+                startActivity(checkMedicineIntent);
+            }
+        });*/
 
 
 
@@ -97,44 +157,38 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
             DataBaseManager dbm = new DataBaseManager(this);
             //Get TakingsPlan object to temporary object in memory:
             TakingsPlan curr_takingsPlan = dbm.dbGetTakingsPlan(iRec_ID_for_Update);
-            //I want to get info about medicines:
+            //I want to get info about medicines too:
             Integer curr_med_id = curr_takingsPlan.getMedicine_id();
             Medicine curr_medicine = dbm.dbGetMedicine(curr_med_id);
             dbm.close();
 
             //Set value on Activity components:
-            //Set Days:
-            //ustawienie zmiennych lokalnych:
-            local_Sunday = true;
-            local_Monday = true;
-            local_Tuesday = true;
-            local_Wednesday = true;
-            local_Thursday = false;
-            local_Friday = false;
-            local_Saturday = false;
+            //Time:
+            tvClock.setText(padLZero(curr_takingsPlan.getHour().toString())+":"+padLZero(curr_takingsPlan.getMinute().toString()));
 
-            //Ustawienie wartosci w check-box-ach:
-            cb_Sun.setChecked(local_Sunday);
-            cb_Mon.setChecked(local_Monday);
-            cb_Tue.setChecked(local_Tuesday);
-            cb_Wed.setChecked(local_Wednesday);
-            cb_Thu.setChecked(local_Thursday);
-            cb_Fri.setChecked(local_Friday);
-            cb_Sat.setChecked(local_Saturday);
+
+            //Medicine:
+            tv_current_MedicineName.setText(curr_medicine.getName());
+            tv_current_MedicineForm.setText(curr_medicine.getFormMedicine());
+
+            //Set Days:
+            //Ustawienie wartosci w check-box-ach ( + zamiana Integer na Boolean):
+            cb_Sun.setChecked(curr_takingsPlan.getDay_sunday() != 0);
+            cb_Mon.setChecked(curr_takingsPlan.getDay_monday() != 0);
+            cb_Tue.setChecked(curr_takingsPlan.getDay_tuesday() != 0);
+            cb_Wed.setChecked(curr_takingsPlan.getDay_wednesday() != 0);
+            cb_Thu.setChecked(curr_takingsPlan.getDay_thursday() != 0);
+            cb_Fri.setChecked(curr_takingsPlan.getDay_friday() != 0);
+            cb_Sat.setChecked(curr_takingsPlan.getDay_saturday() != 0);
 
         }else{
             //New Schedule:
 
         }
 
-
-
-
-
-
-
-
     }
+
+
 
     public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
@@ -200,6 +254,13 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
 
 
     }
+
+
+    public void selectMedicineFromOtherActivity(View view){
+        Intent selectMedicineIntent = new Intent(ScheduleNewUpdateActivity.this,SelectMedicine.class);
+        startActivity(selectMedicineIntent);
+    }
+
 
     public void save(View view){
 

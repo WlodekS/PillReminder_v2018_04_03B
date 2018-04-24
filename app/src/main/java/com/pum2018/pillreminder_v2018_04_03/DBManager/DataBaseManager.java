@@ -27,7 +27,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     // Database name:
     private static final String DB_NAME = "PillRemDB";
     // Database version:
-    private static final int DB_VERSION = 22;
+    private static final int DB_VERSION = 25;
 
     //--------------
     // TABLE NAMES :
@@ -725,7 +725,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
             //Medicine 2:
             med.setName("Doxycyklina");
             med.setFormMedicine("Tablet");
-            med.setQuantity(10);
+            med.setQuantity(8);
             med.setDose_option("szt");
             dbCreateMedicine(med);
 
@@ -747,14 +747,14 @@ public class DataBaseManager extends SQLiteOpenHelper {
             //Medicine 5:
             med.setName("Diazepan Max");
             med.setFormMedicine("Tablet");
-            med.setQuantity(10);
+            med.setQuantity(3);
             med.setDose_option("szt");
             dbCreateMedicine(med);
 
             //Medicine 6:
             med.setName("Nurofen Extra");
             med.setFormMedicine("Drops");
-            med.setQuantity(30);
+            med.setQuantity(7);
             med.setDose_option("szt");
             dbCreateMedicine(med);
 
@@ -847,7 +847,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
                     "2018-01-02",
                     "Doxycyklina",
                     "08:00",
-                    "9:30"));
+                    "09:30"));
 
             //Taking 5:
             dbCreateTakings(new Taking(
@@ -863,7 +863,48 @@ public class DataBaseManager extends SQLiteOpenHelper {
                     "18:00",
                     "18:30"));
 
+            //Taking 7:
+            dbCreateTakings(new Taking(
+                    "2018-01-03",
+                    "Doxycyklina",
+                    "08:00",
+                    "08:31"));
 
+            //Taking 8:
+            dbCreateTakings(new Taking(
+                    "2018-01-03",
+                    "Gripex 200mg",
+                    "12:00",
+                    "12:45"));
+
+            //Taking 9:
+            dbCreateTakings(new Taking(
+                    "2018-01-03",
+                    "Espumisan",
+                    "18:00",
+                    "19:05"));
+
+
+            //Taking 10:
+            dbCreateTakings(new Taking(
+                    "2018-01-04",
+                    "Doxycyklina",
+                    "08:00",
+                    "08:07"));
+
+            //Taking 11:
+            dbCreateTakings(new Taking(
+                    "2018-01-04",
+                    "Gripex 200mg",
+                    "12:00",
+                    "12:19"));
+
+            //Taking 12:
+            dbCreateTakings(new Taking(
+                    "2018-01-04",
+                    "Espumisan",
+                    "18:00",
+                    "18:01"));
         }
     }
 }

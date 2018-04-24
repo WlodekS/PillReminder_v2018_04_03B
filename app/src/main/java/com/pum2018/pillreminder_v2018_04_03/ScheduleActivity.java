@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -135,11 +136,22 @@ public class ScheduleActivity extends AppCompatActivity {
         Toast.makeText(this,"Schedule Edit", Toast.LENGTH_SHORT).show();
 
 
-        //Aktualizacja pojedynczego rekodu:
+/*        //Aktualizacja pojedynczego rekodu:
         View parent = (View) view.getParent();
         TextView textView_currID = (TextView) parent.findViewById(R.id.textView_current_ID);
         String id_String = String.valueOf(textView_currID.getText());
         Integer id_Int = Integer.parseInt(id_String);       // wartość _id jako Integer
+        Log.i("DB","Edycja TakingsPlan-u. ID: " + id_String);*/
+
+
+        //============================================
+        //TEST 2018.04.24 godz. 22:53:
+        TextView textView_currID = (TextView) view.findViewById(R.id.textView_current_ID);
+        String id_String = String.valueOf(textView_currID.getText());
+        Integer id_Int = Integer.parseInt(id_String);       // wartość _id jako Integer
+        Log.i("DB","Edycja TakingsPlan-u. TEST wieczorny -  ID: " + id_String);
+        //=============================================
+
 
         //Wywołamy teraz nową formatkę - przekażemy do niej numer rekordu w tabeli TAKINGS_PLAN_TABLE.
         //Rekord ten bedzie w wywoływanej formatce aktualizowany

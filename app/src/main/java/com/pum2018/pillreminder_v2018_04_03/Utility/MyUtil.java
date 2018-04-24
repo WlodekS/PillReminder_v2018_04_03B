@@ -41,4 +41,38 @@ public class MyUtil {
         return sDateString;
     }
 
+    public static Integer get_DistanceTime(String time1, String time2){
+        Integer iDistance;  //w minutach
+        String sHours, sMinutes;
+        Integer nHours, nMinutes;
+        iDistance = 0;
+        Integer nMinuteFromMidnight_1, nMinuteFromMidnight_2;
+        Integer posColon;
+
+        //time1 from midnight:
+        posColon = time1.indexOf(":");
+        sHours = time1.substring(0,posColon) ;
+        sMinutes = time1.substring(posColon+1,time1.length());
+        //to integer:
+        nHours = Integer.parseInt(sHours);
+        nMinutes = Integer.parseInt(sMinutes);
+        //minutes from midnight:
+        nMinuteFromMidnight_1 = (nHours*60)+nMinutes;
+
+        //time2 from midnight:
+        posColon = time2.indexOf(":");
+        sHours = time2.substring(0,posColon) ;
+        sMinutes = time2.substring(posColon+1,time2.length());
+        //to integer:
+        nHours = Integer.parseInt(sHours);
+        nMinutes = Integer.parseInt(sMinutes);
+        //minutes from midnight:
+        nMinuteFromMidnight_2 = (nHours*60)+nMinutes;
+
+        //Difference:
+        iDistance = nMinuteFromMidnight_2 - nMinuteFromMidnight_1;
+
+        return iDistance;
+    }
+
 }

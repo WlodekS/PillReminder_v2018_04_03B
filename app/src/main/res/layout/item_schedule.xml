@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:onClick="scheduleEdit">
 
     <TextView
         android:id="@+id/textView_Schedule_Hour"
@@ -91,33 +92,21 @@
         app:layout_constraintTop_toBottomOf="@+id/textView_Schedule_MediceName" />
 
     <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="34dp"
-        android:layout_height="31dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:contentDescription="Edit"
-        android:onClick="scheduleEdit"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_Dose_Option"
-        app:layout_constraintEnd_toStartOf="@+id/imageView10"
-        app:layout_constraintStart_toEndOf="@+id/textView_Form"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/icona_zielone_ok" />
-
-    <ImageView
         android:id="@+id/imageView10"
         android:layout_width="32dp"
         android:layout_height="31dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:contentDescription="Delete"
         android:onClick="ScheduleDelete"
         app:layout_constraintBottom_toBottomOf="@+id/textView_Dose_Option"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintStart_toEndOf="@+id/textView_Form"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/icona_czerwony_x" />
 
     <TextView
@@ -126,8 +115,8 @@
         android:layout_height="8dp"
         android:text="TextView"
         android:visibility="invisible"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_Sun"

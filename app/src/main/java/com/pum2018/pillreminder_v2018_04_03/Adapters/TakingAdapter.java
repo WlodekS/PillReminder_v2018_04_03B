@@ -15,6 +15,7 @@ import com.pum2018.pillreminder_v2018_04_03.R;
 
 import java.util.ArrayList;
 
+import static com.pum2018.pillreminder_v2018_04_03.Utility.MyUtil.get_DistanceTime;
 import static com.pum2018.pillreminder_v2018_04_03.Utility.MyUtil.padLZero;
 
 /**
@@ -115,7 +116,17 @@ public class TakingAdapter extends BaseAdapter {
         //Komentarz:
         //imageViewComment.setBackgroundResource(R.drawable.thumbs_down);
 
+        //Roznica czasu planowego i faktycznego czasu zazycia
+        Integer nDistanceTime;
+        nDistanceTime = get_DistanceTime(currentTaking.getPlannedtime(), currentTaking.getTakingtime() );
 
+        if (nDistanceTime>30) {
+            //imageViewComment.setBackgroundResource(R.drawable.ic_rap_czerwony_wykrzyknik);
+            imageViewComment.setImageResource(R.drawable.ic_rap_czerwony_wykrzyknik);
+        }else{
+            //imageViewComment.setBackgroundResource(R.drawable.ic_rap_zielona_fajka);
+            imageViewComment.setImageResource(R.drawable.ic_rap_zielona_fajka);
+        }
 /*        //Kolorowanie aktywnych dni tygodnia w wierszu ListView:
         //Sunday:
         if (currentTakingsPlanViewForAdapter.getDay_sunday() == 1) {

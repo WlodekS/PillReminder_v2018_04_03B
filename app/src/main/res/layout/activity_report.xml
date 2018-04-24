@@ -79,7 +79,9 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="368dp"
-        android:layout_height="339dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView">
@@ -88,10 +90,11 @@
             android:id="@+id/tabHostReport"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:theme="@style/TabWidgetTheme"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +108,8 @@
                 <TabWidget
                     android:id="@android:id/tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:theme="@style/TabWidgetTheme"/>
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
@@ -124,8 +128,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:divider="@color/colorListMedineName"
-                            android:dividerHeight="2dp"
-                            android:listSelector="@color/colorListViewSelectedItem"
+                            android:dividerHeight="1dp"
                             android:nestedScrollingEnabled="true"
                             app:layout_constraintBottom_toTopOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -141,10 +144,18 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="Tab2" />
+                        <ListView
+                            android:id="@+id/listView_Raport2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:divider="@color/colorListMedineName"
+                            android:dividerHeight="1dp"
+                            android:nestedScrollingEnabled="true"
+                            app:layout_constraintBottom_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="parent" />
 
                     </LinearLayout>
 

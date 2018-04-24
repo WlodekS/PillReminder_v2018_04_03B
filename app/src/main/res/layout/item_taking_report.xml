@@ -63,10 +63,10 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="27dp"
-        android:layout_height="27dp"
+        android:layout_width="30dp"
+        android:layout_height="36dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/checkbox_on_background" />

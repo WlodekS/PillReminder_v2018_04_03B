@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.provider.CalendarContract;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,6 +120,7 @@ public class TakingsPlanAdapter extends BaseAdapter {
         //currentRecord_ID = currTakingsPlan_id;
         //Przypisanie wartośi niewyświetlanej (bieżące _id rekordu):
         textView_id.setText(currentTakingsPlanViewForAdapter.get_id().toString());
+        Log.i("DB","TakingsPlanAdapter-getView: zapisano ID: " + currentTakingsPlanViewForAdapter.get_id().toString() );
 
         //Przypisanie wartośi do wyświetlenia:
         //Hour:
