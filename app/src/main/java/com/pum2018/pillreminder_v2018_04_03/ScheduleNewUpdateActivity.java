@@ -1,8 +1,11 @@
 package com.pum2018.pillreminder_v2018_04_03;
 
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,6 +28,8 @@ import com.pum2018.pillreminder_v2018_04_03.DataModel.TakingsPlan;
 import java.util.Calendar;
 
 import static com.pum2018.pillreminder_v2018_04_03.R.layout.activity_schedule_new_update;
+import static com.pum2018.pillreminder_v2018_04_03.Utility.MyUtil.getHoursFromStringTime;
+import static com.pum2018.pillreminder_v2018_04_03.Utility.MyUtil.getMinutesFromStringTime;
 import static com.pum2018.pillreminder_v2018_04_03.Utility.MyUtil.padLZero;
 
 
@@ -44,6 +49,8 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
 
     // _id of record to update (if Update);
     Integer iRec_ID_for_Update;
+    // _id of Medicine (Fereign Key):
+    Integer iRec_Medicine_ID;
 
     //variables to access activity objects:
     TextView title;
@@ -64,6 +71,17 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
     //RadioGroup rg1, rg2;
     //int chkId1 = 0, chkId2 = 0;
     //Spinner spinner
+
+    //Te zmienne deklarujemy jako zmienne klasy
+    //- bo niektóre z nich będa modyfikowane w onActivityResult
+    TextView tv_current_Medicine_ID;
+    TextView tv_current_MedicineName;
+    TextView tv_current_MedicineForm;
+    TextView tv_current_MedicineQuantity;
+    TextView tv_current_MedicineDoseOption;
+
+    TakingsPlan curr_takingsPlan;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,10 +113,12 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
         cb_Fri = (CheckBox)findViewById(R.id.checkBox6);
         cb_Sat = (CheckBox)findViewById(R.id.checkBox7);;
 
-        //variable to access to Medicine Name and Form:
-        TextView tv_current_MedicineName = (TextView)findViewById(R.id.textView_Medicine);
-        TextView tv_current_MedicineForm = (TextView)findViewById(R.id.textView_FormMedicine);
-
+        //variable to access to Medicine ID, Name and Form, quantity i dose option:
+        tv_current_Medicine_ID = (TextView) findViewById(R.id.textView_Medicine_ID);
+        tv_current_MedicineName = (TextView)findViewById(R.id.textView_Medicine);
+        tv_current_MedicineForm = (TextView)findViewById(R.id.textView_FormMedicine);
+        tv_current_MedicineQuantity = (TextView)findViewById(R.id.textView_SetAlarm_Quantity);
+        tv_current_MedicineDoseOption = (TextView)findViewById(R.id.textView_SetAlarmDoseOption);
 
         //Do obsługi wyskakującego zegarka do ustawiania czasu:
         tvClock = (TextView) findViewById(R.id.textViewClock);
@@ -106,17 +126,45 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
         hour = currentTime.get(Calendar.HOUR_OF_DAY);
         minute = currentTime.get(Calendar.MINUTE);
         //mhour = selectedTimeFormat(hour);
+
+        //Ustawienie początkowe zegara:
         tvClock.setText(hour + " : " + minute); //+ " " + format);
+
         tvClock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(ScheduleNewUpdateActivity.this, new TimePickerDialog.OnTimeSetListener() {
+/*                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        ScheduleNewUpdateActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         //hourOfDay = selectedTimeFormat(hourOfDay);
                         tvClock.setText(hourOfDay + " : " + minute + " " + format);
                     }
-                }, hour , minute, true);
+                }, hour , minute, true);*/
+                //Odczytanie godziny i minuty z ustawień alarmu na ekranie:
+                //int intHH = curr_takingsPlan.getHour();
+                //int intMM = curr_takingsPlan.getMinute();
+                int intHH = getHoursFromStringTime((String) tvClock.getText());
+                int intMM = getMinutesFromStringTime((String) tvClock.getText());
+
+                 TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        ScheduleNewUpdateActivity.this,
+                        new TimePickerDialog.OnTimeSetListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        //hourOfDay = selectedTimeFormat(hourOfDay);
+                        //tvClock.setText(hourOfDay + " : " + minute + " " + format);
+                        //Odczyt czasu:
+                        Integer intGodzina = view.getHour();
+                        Integer intMinuta = view.getMinute();
+                        String strGodzina = padLZero(String.valueOf(intGodzina));
+                        String strMinuta = padLZero(String.valueOf(intMinuta));
+                        tvClock.setText(strGodzina+":"+strMinuta);
+                    }
+                }, intHH , intMM, true);
+
                 timePickerDialog.show();
             }
         });
@@ -156,20 +204,25 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
             //na podstawie numeru rekordu - odczytujemy z tabeli TAKINGS_PLAN_TABLE informacje o pojedynczej schedule:
             DataBaseManager dbm = new DataBaseManager(this);
             //Get TakingsPlan object to temporary object in memory:
-            TakingsPlan curr_takingsPlan = dbm.dbGetTakingsPlan(iRec_ID_for_Update);
+            curr_takingsPlan = dbm.dbGetTakingsPlan(iRec_ID_for_Update);
             //I want to get info about medicines too:
             Integer curr_med_id = curr_takingsPlan.getMedicine_id();
             Medicine curr_medicine = dbm.dbGetMedicine(curr_med_id);
+            //Dodatkowo zapisuję Medicine_ID do zmiennej klasy, żeby wykorzystać przy wywołaniu nowego Activity:
+            iRec_Medicine_ID = curr_med_id;
             dbm.close();
 
             //Set value on Activity components:
             //Time:
             tvClock.setText(padLZero(curr_takingsPlan.getHour().toString())+":"+padLZero(curr_takingsPlan.getMinute().toString()));
-
-
+            //Id dla Medicine:
+            tv_current_Medicine_ID.setText(curr_med_id.toString());
             //Medicine:
             tv_current_MedicineName.setText(curr_medicine.getName());
             tv_current_MedicineForm.setText(curr_medicine.getFormMedicine());
+            //Dawkowanie:
+            tv_current_MedicineQuantity.setText(curr_takingsPlan.getDose().toString());
+            tv_current_MedicineDoseOption.setText(curr_medicine.getDose_option());
 
             //Set Days:
             //Ustawienie wartosci w check-box-ach ( + zamiana Integer na Boolean):
@@ -198,10 +251,11 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
                 if (checked) {
                     local_Sunday = true;
                     showToast("Sunday set");
-                } else  {
+                } else {
                     local_Sunday = false;
                     showToast("Sunday clear");
-                    break;}
+                }
+                break;
             case R.id.checkBox2:
                 if (checked) {
                     local_Monday = true;
@@ -209,7 +263,8 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
                 } else  {
                     local_Monday = false;
                     showToast("Monday clear");
-                    break;}
+                }
+                break;
             case R.id.checkBox3:
                 if (checked) {
                     local_Monday = true;
@@ -217,39 +272,44 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
                 } else  {
                     local_Monday = false;
                     showToast("Tuesday clear");
-                    break;}
+                }
+                break;
             case R.id.checkBox4:
                 if (checked) {
                     local_Monday = true;
                     showToast("Wednesday set");
-                } else  {
+                } else {
                     local_Monday = false;
                     showToast("Wednesday clear");
-                    break;}
+                }
+                break;
             case R.id.checkBox5:
                 if (checked) {
                     local_Monday = true;
                     showToast("Thursday set");
-                } else  {
+                } else {
                     local_Monday = false;
                     showToast("Thursday clear");
-                    break;}
+                }
+                break;
             case R.id.checkBox6:
                 if (checked) {
                     local_Monday = true;
                     showToast("Friday set");
-                } else  {
+                } else {
                     local_Monday = false;
                     showToast("Friday clear");
-                    break;}
+                }
+                break;
             case R.id.checkBox7:
                 if (checked) {
                     local_Monday = true;
                     showToast("Saturday set");
-                } else  {
+                } else {
                     local_Monday = false;
                     showToast("Saturday clear");
-                    break;}
+                }
+                break;
         }
 
 
@@ -257,9 +317,77 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
 
 
     public void selectMedicineFromOtherActivity(View view){
+
+        //Do wywoływanej tu Activity wysyłam informacje o numerach edytowanego rekordu i Medicine_ID:
+        //create a Bundle object
+        Bundle extras = new Bundle();
+        //Adding key value pairs to this bundle
+        //there are quite a lot data types you can store in a bundle
+        extras.putInt("ALARM_ID", iRec_ID_for_Update);
+        extras.putInt("MEDICINE_ID", iRec_Medicine_ID);
+
+        //create and initialize an intent
         Intent selectMedicineIntent = new Intent(ScheduleNewUpdateActivity.this,SelectMedicine.class);
-        startActivity(selectMedicineIntent);
+        //attach the bundle to the Intent object
+        selectMedicineIntent.putExtras(extras);
+
+        //finally start the activity
+        //startActivity(selectMedicineIntent);
+        startActivityForResult(selectMedicineIntent, 2);// Activity is started with requestCode 2
+
     }
+
+    // Call Back method  to get the Message form other Activity    override the method
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==2)
+        {
+            //Wersja z pojedynczą informacją
+            // fetch the message String
+            //String message=data.getStringExtra("MESSAGE");
+            // Set the message string in textView
+            //tv_current_MedicineName.setText(message);
+
+            //Odczytamy wartościprzekazane w Extras. Ustawimy tez dwie zmienne klasy, tak, żeby
+            //get the attached bundle from the data (intent)
+            Bundle extras = data.getExtras();
+
+            //Extracting and saving the stored data from the bundle
+            boolean selectedTheSame = extras.getBoolean("SELECTED_TE_SAME");
+
+            if (selectedTheSame==true){
+                //Nie zmieniamy nic.
+                //tv_current_MedicineName.setText("To samo");
+            }else{
+                //Zmieniamy ustawienia w Activity, ponieważ Medicine zostało wybrane już inne:
+                // 1. textView_Medicine_ID        - Umieszczone w niewidocznym textView Medicine_ID
+                // 2. textView_Medicine           - Nazwa Medicine
+                // 3. textView_FormMedicine       - Medicine Form (tablet, kapsule itp.)
+                // 4. textView_SetAlarm_Quantity  - Zażywana ilość - dla nowej Medicine - domyślnie 1
+                // 5. textView_SetAlarmDoseOption - sztuki, ml ...
+                //Ad.1:
+                Integer currMedID = extras.getInt("KEY_MEDICINE_ID");
+                tv_current_Medicine_ID.setText(currMedID.toString());
+                //Ad.2:
+                tv_current_MedicineName.setText(extras.getString("KEY_MEDICINE_NAME"));
+                //Ad.3:
+                tv_current_MedicineForm.setText(extras.getString("KEY_MEDICINE_FORM"));
+                //Ad.4:
+                tv_current_MedicineQuantity.setText("1");
+                //Ad.5:
+                tv_current_MedicineDoseOption.setText(extras.getString("KEY_MEDICINE_DOSE_OPTION"));
+            }
+
+        }
+
+    }
+
 
 
     public void save(View view){

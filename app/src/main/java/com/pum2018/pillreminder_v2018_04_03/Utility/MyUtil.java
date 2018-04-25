@@ -75,4 +75,32 @@ public class MyUtil {
         return iDistance;
     }
 
+    public static Integer getHoursFromStringTime(String time){
+        String sHours, sMinutes;
+        Integer nHours, nMinutes;
+        Integer posColon;
+
+        posColon = time.indexOf(":");
+        sHours = time.substring(0,posColon) ;
+        //sMinutes = time.substring(posColon+1,time.length());
+        //to integer:
+        nHours = Integer.parseInt(sHours);
+        //nMinutes = Integer.parseInt(sMinutes);
+
+        return nHours;
+    }
+    public static Integer getMinutesFromStringTime(String time){
+        String sHours, sMinutes;
+        Integer nHours, nMinutes;
+        Integer posColon;
+
+        posColon = time.indexOf(":");
+        //sHours = time.substring(0,posColon) ;
+        sMinutes = time.substring(posColon+1,time.length());
+        //to integer:
+        //nHours = Integer.parseInt(sHours);
+        nMinutes = Integer.parseInt(sMinutes);
+
+        return nMinutes;
+    }
 }

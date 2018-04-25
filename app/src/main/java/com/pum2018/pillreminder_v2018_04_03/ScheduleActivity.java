@@ -149,7 +149,7 @@ public class ScheduleActivity extends AppCompatActivity {
         TextView textView_currID = (TextView) view.findViewById(R.id.textView_current_ID);
         String id_String = String.valueOf(textView_currID.getText());
         Integer id_Int = Integer.parseInt(id_String);       // wartość _id jako Integer
-        Log.i("DB","Edycja TakingsPlan-u. TEST wieczorny -  ID: " + id_String);
+        //Log.i("DB","Edycja TakingsPlan-u. TEST wieczorny -  ID: " + id_String);
         //=============================================
 
 

@@ -27,7 +27,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     // Database name:
     private static final String DB_NAME = "PillRemDB";
     // Database version:
-    private static final int DB_VERSION = 25;
+    private static final int DB_VERSION = 26;
 
     //--------------
     // TABLE NAMES :
