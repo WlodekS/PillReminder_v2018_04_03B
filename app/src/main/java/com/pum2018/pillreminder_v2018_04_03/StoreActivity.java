@@ -13,7 +13,7 @@ public class StoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
     }
-
+    
     public void addMedicineToStore(View view){
         Intent addMedicineToStoreIntent = new Intent(StoreActivity.this,AddMedicine.class);
         startActivity(addMedicineToStoreIntent);
