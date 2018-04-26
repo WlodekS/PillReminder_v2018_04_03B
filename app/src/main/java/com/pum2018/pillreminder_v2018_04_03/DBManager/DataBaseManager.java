@@ -600,7 +600,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
 
     /**
-     * dbUpdateTakingsPlan
+     * dbUpdateTaking
      * Update a dbUpdateTakingsPlan object in the table TAKINGS_PLAN_TABLE
      * Param1: Taking object
      * Return: nothing

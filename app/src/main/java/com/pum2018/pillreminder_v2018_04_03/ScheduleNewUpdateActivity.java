@@ -3,9 +3,11 @@ package com.pum2018.pillreminder_v2018_04_03;
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -78,7 +80,10 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
     TextView tv_current_MedicineName;
     TextView tv_current_MedicineForm;
     TextView tv_current_MedicineQuantity;
+    EditText et_current_MedicineQuantity;
     TextView tv_current_MedicineDoseOption;
+
+
 
     TakingsPlan curr_takingsPlan;
 
@@ -118,6 +123,7 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
         tv_current_MedicineName = (TextView)findViewById(R.id.textView_Medicine);
         tv_current_MedicineForm = (TextView)findViewById(R.id.textView_FormMedicine);
         tv_current_MedicineQuantity = (TextView)findViewById(R.id.textView_SetAlarm_Quantity);
+        et_current_MedicineQuantity = (EditText) findViewById(R.id.editText_SetAlarm_Quantity);
         tv_current_MedicineDoseOption = (TextView)findViewById(R.id.textView_SetAlarmDoseOption);
 
         //Do obsługi wyskakującego zegarka do ustawiania czasu:
@@ -222,6 +228,7 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
             tv_current_MedicineForm.setText(curr_medicine.getFormMedicine());
             //Dawkowanie:
             tv_current_MedicineQuantity.setText(curr_takingsPlan.getDose().toString());
+            et_current_MedicineQuantity.setText(curr_takingsPlan.getDose().toString());
             tv_current_MedicineDoseOption.setText(curr_medicine.getDose_option());
 
             //Set Days:
@@ -356,34 +363,42 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
 
             //Odczytamy wartościprzekazane w Extras. Ustawimy tez dwie zmienne klasy, tak, żeby
             //get the attached bundle from the data (intent)
-            Bundle extras = data.getExtras();
+            if (data!=null) {
+                Bundle extras = data.getExtras();
 
-            //Extracting and saving the stored data from the bundle
-            boolean selectedTheSame = extras.getBoolean("SELECTED_TE_SAME");
+                //Extracting and saving the stored data from the bundle
+                boolean selectedTheSame = extras.getBoolean("SELECTED_TE_SAME");
 
-            if (selectedTheSame==true){
-                //Nie zmieniamy nic.
-                //tv_current_MedicineName.setText("To samo");
-            }else{
-                //Zmieniamy ustawienia w Activity, ponieważ Medicine zostało wybrane już inne:
-                // 1. textView_Medicine_ID        - Umieszczone w niewidocznym textView Medicine_ID
-                // 2. textView_Medicine           - Nazwa Medicine
-                // 3. textView_FormMedicine       - Medicine Form (tablet, kapsule itp.)
-                // 4. textView_SetAlarm_Quantity  - Zażywana ilość - dla nowej Medicine - domyślnie 1
-                // 5. textView_SetAlarmDoseOption - sztuki, ml ...
-                //Ad.1:
-                Integer currMedID = extras.getInt("KEY_MEDICINE_ID");
-                tv_current_Medicine_ID.setText(currMedID.toString());
-                //Ad.2:
-                tv_current_MedicineName.setText(extras.getString("KEY_MEDICINE_NAME"));
-                //Ad.3:
-                tv_current_MedicineForm.setText(extras.getString("KEY_MEDICINE_FORM"));
-                //Ad.4:
-                tv_current_MedicineQuantity.setText("1");
-                //Ad.5:
-                tv_current_MedicineDoseOption.setText(extras.getString("KEY_MEDICINE_DOSE_OPTION"));
+                if (selectedTheSame == true) {
+                    //Nie zmieniamy nic.
+                    //tv_current_MedicineName.setText("To samo");
+                } else {
+                    //Zmieniamy ustawienia w Activity, ponieważ Medicine zostało wybrane już inne:
+                    // 1. textView_Medicine_ID        - Umieszczone w niewidocznym textView Medicine_ID
+                    // 2. textView_Medicine           - Nazwa Medicine
+                    // 3. textView_FormMedicine       - Medicine Form (tablet, kapsule itp.)
+                    // 4. textView_SetAlarm_Quantity  - Zażywana ilość - dla nowej Medicine - domyślnie 1
+                    // 5. textView_SetAlarmDoseOption - sztuki, ml ...
+                    //Ad.1:
+                    Integer currMedID = extras.getInt("KEY_MEDICINE_ID");
+                    tv_current_Medicine_ID.setText(currMedID.toString());
+                    //Ad.2:
+                    tv_current_MedicineName.setText(extras.getString("KEY_MEDICINE_NAME"));
+                    //Ad.3:
+                    tv_current_MedicineForm.setText(extras.getString("KEY_MEDICINE_FORM"));
+                    //Ad.4:
+                    tv_current_MedicineQuantity.setText("1");
+                    et_current_MedicineQuantity.setText("1");
+                    //Ad.5:
+                    tv_current_MedicineDoseOption.setText(extras.getString("KEY_MEDICINE_DOSE_OPTION"));
+                }
             }
+            else
+            {
+                //data==null => nic nie wybrano na liście wybory medicine
+                //Nie robimy nic.
 
+            }
         }
 
     }
@@ -391,6 +406,41 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
 
 
     public void save(View view){
+        //Save data from Activity to database:
+        //Saving to Database:
+        DataBaseManager dbm = new DataBaseManager(this);
+        SQLiteDatabase db = dbm.getReadableDatabase();
+
+        //parametry konieczne do zapisu do bazy:
+        //Hour, Minute:
+        String modi_Time = (String) tvClock.getText();
+        int intHH = getHoursFromStringTime(modi_Time);
+        int intMM = getMinutesFromStringTime(modi_Time);
+        int intModiDose = Integer.parseInt(et_current_MedicineQuantity.getText().toString());
+
+        //Creating new TakinPlan object:
+        TakingsPlan modifyingTakingPlan = new TakingsPlan();
+        //The First - set appropriate ID:
+        modifyingTakingPlan.set_id(iRec_ID_for_Update);
+        //Then - set other params:
+        modifyingTakingPlan.setHour(intHH);
+        modifyingTakingPlan.setMinute(intMM);
+        modifyingTakingPlan.setMedicine_id(Integer.parseInt((String) tv_current_Medicine_ID.getText()));
+        modifyingTakingPlan.setDose(intModiDose);
+        modifyingTakingPlan.setDay_sunday(cb_Sun.isChecked() ? 1:0);
+        modifyingTakingPlan.setDay_monday(cb_Mon.isChecked() ? 1:0);
+        modifyingTakingPlan.setDay_tuesday(cb_Tue.isChecked() ? 1:0);
+        modifyingTakingPlan.setDay_wednesday(cb_Wed.isChecked() ? 1:0);    //0,1
+        modifyingTakingPlan.setDay_thursday(cb_Thu.isChecked() ? 1:0);
+        modifyingTakingPlan.setDay_friday(cb_Fri.isChecked() ? 1:0);
+        modifyingTakingPlan.setDay_saturday(cb_Sat.isChecked() ? 1:0);
+
+        //Zapis do bazy:
+        dbm.dbUpdateTakingsPlan(modifyingTakingPlan);
+        dbm.close();
+
+        //finish Activity:
+        finish();
 
     }
 

@@ -62,8 +62,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/fjalla_one"
+        android:gravity="right"
         android:text="TextView"
-        android:textSize="20sp"
+        android:textColor="@color/colorListMedineName"
+        android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Minute"
         app:layout_constraintTop_toBottomOf="@+id/textView_Schedule_MediceName" />
 
@@ -72,12 +74,12 @@
         android:layout_width="66dp"
         android:layout_height="37dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:fontFamily="@font/fjalla_one"
         android:text="TextView"
-        android:textSize="20sp"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_Schedule_MediceName"
         app:layout_constraintStart_toEndOf="@+id/textView_Schedule_MediceName"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/textView_Schedule_MediceName" />
 
     <TextView
         android:id="@+id/textView_Dose_Option"
@@ -87,7 +89,8 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/fjalla_one"
         android:text="TextView"
-        android:textSize="20sp"
+        android:textColor="@color/colorListMedineName"
+        android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@+id/textView_Schedule_Dose"
         app:layout_constraintTop_toBottomOf="@+id/textView_Schedule_MediceName" />
 
@@ -98,15 +101,14 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="Delete"
         android:onClick="ScheduleDelete"
-        app:layout_constraintBottom_toBottomOf="@+id/textView_Dose_Option"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_Sat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.82"
         app:layout_constraintStart_toEndOf="@+id/textView_Form"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/icona_czerwony_x" />
 
     <TextView

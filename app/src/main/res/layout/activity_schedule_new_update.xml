@@ -96,11 +96,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Set days : "
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_SetAlarm_Quantity" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_SetAlarm_Quantity" />
 
     <CheckBox
         android:id="@+id/checkBox1"
@@ -214,7 +214,7 @@
         android:id="@+id/button_save"
         android:layout_width="123dp"
         android:layout_height="46dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:onClick="save"
@@ -290,27 +290,45 @@
 
     <TextView
         android:id="@+id/textView_SetAlarm_Quantity"
-        android:layout_width="69dp"
+        android:layout_width="19dp"
         android:layout_height="35dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/fjalla_one"
         android:text="Quantity"
         android:textColor="@color/colorListMedineName"
         android:textSize="24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_FormMedicine" />
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_SetAlarm_Quantity"
+        app:layout_constraintStart_toEndOf="@+id/editText_SetAlarm_Quantity"
+        app:layout_constraintTop_toTopOf="@+id/editText_SetAlarm_Quantity" />
 
     <TextView
         android:id="@+id/textView_SetAlarmDoseOption"
         android:layout_width="71dp"
         android:layout_height="35dp"
-        android:layout_marginStart="8dp"
         android:fontFamily="@font/fjalla_one"
         android:text="DoseOption"
-        android:textSize="24dp"
         android:textColor="@color/colorListMedineName"
+        android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_SetAlarm_Quantity"
         app:layout_constraintStart_toEndOf="@+id/textView_SetAlarm_Quantity"
-        app:layout_constraintTop_toTopOf="@+id/textView_SetAlarm_Quantity" />
+        app:layout_constraintTop_toTopOf="@+id/textView_SetAlarm_Quantity"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/editText_SetAlarm_Quantity"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/fjalla_one"
+        android:gravity="center_horizontal"
+        android:inputType="number"
+        android:text="1"
+        android:textColor="@color/colorAccent"
+        android:textSize="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_FormMedicine" />
 
 </android.support.constraint.ConstraintLayout>
