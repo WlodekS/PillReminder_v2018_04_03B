@@ -36,7 +36,7 @@ import static com.pum2018.pillreminder_v2018_04_03.Utility.MyUtil.padLZero;
 
 
 /**
- * Created by Wlodek on 2018-04-16.
+ * Created by PillReminderGroup on 2018-04-16.
  */
 
 public class ScheduleNewUpdateActivity extends AppCompatActivity {
@@ -244,6 +244,39 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
         }else{
             //New Schedule:
 
+            //Na początek przyjmiemy że domyślnie ustalonym Medicine jest Medicine o ID =1
+            DataBaseManager dbm = new DataBaseManager(this);
+            //Get TakingsPlan object to temporary object in memory:
+            //curr_takingsPlan = dbm.dbGetTakingsPlan(iRec_ID_for_Update);
+            //I want to get info about medicines too:
+            //Integer curr_med_id = curr_takingsPlan.getMedicine_id();
+            Medicine curr_medicine = dbm.dbGetMedicine(1);  //Rozwiązanie szkolne. W zyciu - może to być rekord skasowany.
+            //Dodatkowo zapisuję Medicine_ID do zmiennej klasy, żeby wykorzystać przy wywołaniu nowego Activity:
+            iRec_Medicine_ID = 1;
+            dbm.close();
+
+            //Set value on Activity components:
+            //Time:
+            tvClock.setText(padLZero("0")+":"+padLZero("0"));
+            //Id dla Medicine:
+            tv_current_Medicine_ID.setText("1");
+            //Medicine:
+            tv_current_MedicineName.setText(curr_medicine.getName());
+            tv_current_MedicineForm.setText(curr_medicine.getFormMedicine());
+            //Dawkowanie:
+            tv_current_MedicineQuantity.setText("1");
+            et_current_MedicineQuantity.setText("1");
+            tv_current_MedicineDoseOption.setText(curr_medicine.getDose_option());
+
+            //Set Days:
+            //Ustawienie wartosci w check-box-ach ( + zamiana Integer na Boolean):
+            cb_Sun.setChecked(false);
+            cb_Mon.setChecked(false);
+            cb_Tue.setChecked(false);
+            cb_Wed.setChecked(false);
+            cb_Thu.setChecked(false);
+            cb_Fri.setChecked(false);
+            cb_Sat.setChecked(false);
         }
 
     }
@@ -406,6 +439,7 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
 
 
     public void save(View view){
+
         //Save data from Activity to database:
         //Saving to Database:
         DataBaseManager dbm = new DataBaseManager(this);
@@ -420,8 +454,15 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
 
         //Creating new TakinPlan object:
         TakingsPlan modifyingTakingPlan = new TakingsPlan();
-        //The First - set appropriate ID:
-        modifyingTakingPlan.set_id(iRec_ID_for_Update);
+        //The First - set 0r not appropriate ID:
+        //Jeśli iRec_ID_for_Update = 0 to znaczy że jest to NOWE schedule:
+        if (iRec_ID_for_Update!=0) {
+            modifyingTakingPlan.set_id(iRec_ID_for_Update);
+        } else {
+            //Nowe schedule - nie ustawiamy ID
+            // I do NOTHING
+        }
+
         //Then - set other params:
         modifyingTakingPlan.setHour(intHH);
         modifyingTakingPlan.setMinute(intMM);
@@ -436,7 +477,14 @@ public class ScheduleNewUpdateActivity extends AppCompatActivity {
         modifyingTakingPlan.setDay_saturday(cb_Sat.isChecked() ? 1:0);
 
         //Zapis do bazy:
-        dbm.dbUpdateTakingsPlan(modifyingTakingPlan);
+        if (iRec_ID_for_Update!=0) {
+            //Modyfikacja rekordu:
+            dbm.dbUpdateTakingsPlan(modifyingTakingPlan);
+        } else {
+            //Dodanie rekordu:
+            dbm.dbCreateTakingPlan(modifyingTakingPlan);
+        }
+
         dbm.close();
 
         //finish Activity:

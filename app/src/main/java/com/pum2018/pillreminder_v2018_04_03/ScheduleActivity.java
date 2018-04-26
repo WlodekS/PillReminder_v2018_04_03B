@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,6 +52,16 @@ public class ScheduleActivity extends AppCompatActivity {
 
         //initialize variables to access activity objects:
         lv = (ListView)findViewById(R.id.listView_Schedule);
+
+        //Obsługa Floating Button:
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scheduleAdd(view);
+            }
+        });
+
 
         updateUI2();
 
@@ -133,39 +145,35 @@ public class ScheduleActivity extends AppCompatActivity {
 
 
     public void scheduleEdit(View view){
-        Toast.makeText(this,"Schedule Edit", Toast.LENGTH_SHORT).show();
 
+        //Edycja pojedynczego rekodu:
+        //Toast.makeText(this,"Schedule Edit", Toast.LENGTH_SHORT).show();
 
-/*        //Aktualizacja pojedynczego rekodu:
-        View parent = (View) view.getParent();
-        TextView textView_currID = (TextView) parent.findViewById(R.id.textView_current_ID);
-        String id_String = String.valueOf(textView_currID.getText());
-        Integer id_Int = Integer.parseInt(id_String);       // wartość _id jako Integer
-        Log.i("DB","Edycja TakingsPlan-u. ID: " + id_String);*/
-
-
-        //============================================
-        //TEST 2018.04.24 godz. 22:53:
         TextView textView_currID = (TextView) view.findViewById(R.id.textView_current_ID);
         String id_String = String.valueOf(textView_currID.getText());
         Integer id_Int = Integer.parseInt(id_String);       // wartość _id jako Integer
-        //Log.i("DB","Edycja TakingsPlan-u. TEST wieczorny -  ID: " + id_String);
-        //=============================================
-
 
         //Wywołamy teraz nową formatkę - przekażemy do niej numer rekordu w tabeli TAKINGS_PLAN_TABLE.
         //Rekord ten bedzie w wywoływanej formatce aktualizowany
         //Help: http://hmkcode.com/android-passing-data-to-another-activities/
         Intent editScheduleIntent = new Intent(this,ScheduleNewUpdateActivity.class);
 
-        //TEST:
-        //Intent intent = new Intent(this,SettingsActivity.class);
-        //startActivity(intent);
-
         // Put key/value data
         editScheduleIntent.putExtra("Record_ID", id_Int);
         startActivity(editScheduleIntent);
     }
 
+    public void scheduleAdd(View view){
 
+        //Dodanie nowego schedule:
+
+
+        //Wywołamy teraz nową Activity:
+
+        Intent addScheduleIntent = new Intent(this,ScheduleNewUpdateActivity.class);
+
+        // Put key/value data
+        addScheduleIntent.putExtra("Record_ID", 0); //0-umówiona wartość - dodawanie nowego rekordu
+        startActivity(addScheduleIntent);
+    }
 }
